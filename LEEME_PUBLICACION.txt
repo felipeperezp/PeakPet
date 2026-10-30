@@ -1,0 +1,24 @@
+PEAKPET — Landing multilingüe ES / EN / PT + Formspree
+====================================================
+
+FORMULARIO
+- Servicio: Formspree
+- URL de formulario: https://formspree.io/f/xvkkqjvw
+- Correo previsto: fperez@alanapet.cl
+- IMPORTANTE: el correo destinatario se selecciona/verifica dentro de Formspree (Workflow > Email o ajustes del formulario). NO se puede configurar solo con HTML.
+- Los formularios ES / EN / PT envían al MISMO identificador de Formspree.
+- Se transmite idioma, contacto del tutor, mascota, especie, objetivo, mensaje y consentimiento.
+- Después de una RESPUESTA EXITOSA de Formspree, se dirige a gracias/, en/thank-you/ o pt/obrigado/.
+- Si falla, se conserva el formulario y se muestra un aviso de error; no se indica que se haya enviado.
+- No enviar datos clínicos sensibles; evaluar política de privacidad antes de lanzamientos comerciales.
+
+PUBLICAR EN GITHUB
+1. Descomprimir el ZIP en su equipo.
+2. Abrir https://github.com/felipeperezp/PeakPet y cargar el CONTENIDO de esta carpeta (no el ZIP) en la RAÍZ de la rama main.
+3. Reemplazar index.html y las carpetas en/ y pt/ existentes; mantener CNAME con www.peakpet.cl.
+4. Confirmar Commit changes y esperar a que termine Pages > Actions.
+5. Abrir https://www.peakpet.cl/, https://www.peakpet.cl/en/ y https://www.peakpet.cl/pt/.
+6. Enviar una consulta de prueba desde la web y verificar que aparezca en Submissions de Formspree y llegue al correo fperez@alanapet.cl (si las notificaciones están habilitadas).
+7. Si no llega el correo, verificar Formspree > Workflow > Email (o configuración del formulario) y correo vinculado/validado.
+
+La modificación preserva el diseño del paquete anterior y cambia solamente la integración de los formularios y mensajes relacionados.

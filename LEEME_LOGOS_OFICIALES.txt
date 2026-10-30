@@ -1,0 +1,27 @@
+PEAKPET — Logos OFICIALES adjuntos (español / inglés / portugués)
+
+ACTUALIZACIÓN DE IDENTIDAD VISUAL
+• Logo del header: EXACTAMENTE la imagen horizontal que adjuntaste, LOGOPEAKPET(1).png.
+• Favicon: se recortó SOLAMENTE el emblema circular (perro, gato, gráfico y aro) de la segunda imagen; NO contiene el texto PEAKPET. Fondo blanco.
+• Se actualizaron PNG, favicon.ico y apple-touch-icon.png.
+• La corrección se aplica a los 3 idiomas y a las 3 páginas de agradecimiento.
+• No se modificaron textos, estilos de maquetación, selector de idiomas, enlaces, ni integración con Formspree (xvkkqjvw).
+
+ARCHIVOS CLAVE
+/assets/peakpet-logo-fondo-blanco.png (logo horizontal exacto)
+/assets/peakpet-favicon-fondo-blanco.png (solamente el emblema)
+/favicon.ico (icono de navegador)
+/apple-touch-icon.png (icono iOS)
+/index.html, /en/index.html, /pt/index.html (3 versiones)
+
+ACTUALIZAR CON GITHUB DESKTOP
+1. Descomprime el ZIP. No subas el ZIP al repositorio.
+2. Abre GitHub Desktop y selecciona el repositorio PeakPet.
+3. Abre Repository > Show in Finder.
+4. Copia TODOS los archivos/carpetas descomprimidos a la carpeta del repositorio,
+   conserva la estructura y reemplaza los archivos cuando corresponda.
+5. En GitHub Desktop: Summary «Actualizar logos oficiales PEAKPET».
+6. Commit to main > Push origin.
+7. Abre https://www.peakpet.cl en ventana privada para forzar la carga del nuevo favicon.
+
+No es necesario modificar Cloudflare, NIC Chile, CNAME ni GitHub Pages.

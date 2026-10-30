@@ -1,0 +1,35 @@
+PEAKPET — Integración de reservas TidyCal (30/10/2026)
+
+ARCHIVOS
+- index.html, en/index.html y pt/index.html: botones actualizados y sección de reserva.
+- agendar/index.html: calendario de TidyCal integrado (español).
+- en/booking/index.html: calendario integrado (inglés).
+- pt/agendar/index.html: calendario integrado (portugués).
+- gestion-agenda/index.html: acceso profesional a la gestión de invitaciones (requiere login a TidyCal), y generador local de correo para invitar a elegir horario.
+- El sitio mantiene logos oficiales, favicon, cabecera blanca y contacto Formspree existentes.
+
+RESERVA PÚBLICA
+https://www.peakpet.cl/agendar/
+https://tidycal.com/fperez4/evaluacion-nutricional-peakpet
+Embed de TidyCal oficial con fallback a la reserva externa.
+
+INVITACIÓN SALIENTE DESDE EL PROFESIONAL
+https://www.peakpet.cl/gestion-agenda/
+Opción A: TidyCal -> Bookings -> Create a booking -> elegir fecha/hora -> enviar invitación. El cliente confirma.
+Opción B: formulario de generación de correo a través de Mail; cliente elige fecha/hora (no es reserva confirmada).
+Opción C: en Calendario de Mac, añadir Invitado a evento PEAKPET.
+NOTA: /gestion-agenda/ no es un área privada protegida; las operaciones reales de TidyCal requieren inicio de sesión. No se almacena ninguna credencial ni se envía correo desde el servidor de la web.
+
+PUBLICACIÓN EN GITHUB PAGES
+1. Descomprimir ZIP.
+2. Copiar TODOS los archivos y carpetas a la raíz del repositorio GitHub Pages existente (mantener /assets, /en, /pt, /agendar, /gestion-agenda).
+3. Esperar despliegue y revisar www.peakpet.cl/agendar/ en móvil y escritorio.
+4. Hacer una reserva de prueba y verificar correo + calendario PEAKPET en el Mac.
+5. Verificar envío de invitación desde TidyCal con Bookings > Create a booking.
+6. Si cambia el slug de TidyCal, actualizar el enlace y atributo data-path en los HTML.
+
+SEGURIDAD Y FUNCIONAMIENTO
+El formulario de contacto Formspree sigue siendo independiente: NO confirma citas.
+Los horarios, correos de reserva y datos de invitados son gestionados por TidyCal.
+Las invitaciones hechas desde Calendario de Mac pueden salir desde tu cuenta iCloud, y no necesariamente desde fperez@alanapet.cl.
+El widget embebido requiere conexión a Internet y permiso del navegador; botón alternativo abre TidyCal si el widget falla.

@@ -1,0 +1,23 @@
+PEAKPET – BARRA BLANCA Y LOGO HORIZONTAL +20% (30-10-2026)
+
+CAMBIOS
+• La barra superior de navegación ahora es blanca sólida (#FFFFFF), para eliminar
+  el contraste entre el fondo del PNG oficial y la barra gris anterior.
+• Logo horizontal ampliado exactamente 20%: escritorio 270 a 324 px;
+  pantallas medianas 200 a 240 px; móviles tamaños anteriores x 1,20.
+• El encabezado móvil y menú desplegable se ajustaron para evitar solapamientos.
+• Se mantienen las imágenes originales de alta resolución, el favicon circular,
+  los tres idiomas ES/EN/PT, las secciones y el formulario Formspree.
+
+CÓMO PUBLICAR CON GITHUB DESKTOP
+1. Descomprimir este ZIP.
+2. GitHub Desktop > PeakPet > Repository > Show in Finder.
+3. Copiar el CONTENIDO de esta carpeta sobre la raíz del repositorio.
+   Reemplazar los archivos existentes manteniendo subcarpetas en/, pt/, assets/.
+4. GitHub Desktop > Changes: confirmar index.html, en/index.html y pt/index.html.
+5. Summary: "Barra blanca y logo PEAKPET 20 por ciento mas grande".
+6. Commit to main > Push origin.
+7. Verificar www.peakpet.cl y sus versiones /en/ y /pt/.
+
+IMPORTANTE: No subir el ZIP directamente a GitHub.
+No modificar NIC Chile, Cloudflare, CNAME ni Formspree.

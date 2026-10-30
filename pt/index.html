@@ -56,7 +56,46 @@ footer{background:#081620;color:#D3E4E6;padding:48px 0 18px}.foot-layout{display
 @media(max-width:1160px){.language-switch a{padding:7px 6px;min-width:28px}.site-header .nav{gap:12px}.nav-links{gap:17px}}
 @media(max-width:760px){.site-header .nav{gap:8px}.nav-logo img{width:clamp(105px,30vw,156px)}.language-switch{margin-left:auto}.language-switch a{min-width:27px;padding:7px 5px;font-size:.68rem}.menu-toggle{order:3;margin-left:4px}}
 @media(max-width:360px){.language-switch a{min-width:24px;padding:6px 3px}}
-</style></head>
+</style><style id="peakpet-navbar-white-logo-20">
+/* PEAKPET - Logo oficial +20% y barra de navegación blanca (30/oct/2026).
+   Cambios visuales exclusivamente: las funciones y enlaces existentes se mantienen. */
+.site-header {
+  background: #fff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.site-header .nav {
+  min-height: 116px;
+}
+.site-header .nav-logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.site-header .nav-logo img {
+  display: block;
+  width: 324px;  /* antes 270px: +20% */
+  max-height: 100.8px; /* antes 84px: +20% */
+  height: auto;
+  object-fit: contain;
+}
+@media (max-width: 1060px) {
+  .site-header .nav { min-height: 100px; }
+  .site-header .nav-logo img { width: 240px; max-height: 100.8px; } /* 200 -> 240 */
+}
+@media (max-width: 760px) {
+  .site-header .nav { min-height: 88px; }
+  .site-header .nav-logo img {
+    width: clamp(126px, 36vw, 187.2px); /* +20% del tamaño móvil anterior */
+    max-height: 82.8px;
+  }
+  .site-header .nav-links {
+    background: #fff;
+    top: 88px;
+  }
+}
+</style>
+</head>
 <body>
 <header class="site-header"><div class="container nav">
 <a aria-label="PEAKPET, voltar ao início" class="nav-logo" href="#inicio"><img alt="PEAKPET, logo PEAKPET con perro, gato y gráfico de evolución corporal" src="/assets/peakpet-logo-horizontal-oficial-v3.png"/></a>

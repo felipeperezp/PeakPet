@@ -1,0 +1,24 @@
+PEAKPET · CORRECCIÓN DE CACHE LOGO / FAVICON · 2026-10-30
+
+Este paquete no rediseña nada y utiliza tus logos oficiales aportados en el chat.
+El LOGO horizontal usa la imagen original exacta, el favicon contiene SOLO el emblema.
+
+IMPORTANTE: COMO SABER SI REALMENTE SE PUBLICÓ:
+1. Descarga el ZIP y descomprímelo (NO subas el ZIP al repositorio).
+2. Abre GitHub Desktop con el repositorio PeakPet > Repository > Show in Finder.
+3. Copia EL CONTENIDO de esta carpeta (no la carpeta contenedora) al repositorio.
+   Debes ver index.html, CNAME, assets, en, pt, gracias en la raíz.
+4. GitHub Desktop debe mostrar archivos modificados y los nuevos archivos:
+   assets/peakpet-logo-horizontal-oficial-v3.png
+   assets/peakpet-emblema-circular-oficial-v3.png
+   assets/peakpet-favicon-oficial-v3-32.png
+   peakpet-favicon-oficial-v3.ico
+5. Commit to main > Push origin. SI NO HACES PUSH ORIGIN NO SE ACTUALIZA LA WEB.
+6. Comprueba las URLs directas (deben mostrar las imágenes NUEVAS):
+   https://www.peakpet.cl/assets/peakpet-logo-horizontal-oficial-v3.png
+   https://www.peakpet.cl/assets/peakpet-emblema-circular-oficial-v3.png
+7. Visita https://www.peakpet.cl/?revision=logo-v3 para forzar nueva versión.
+8. Si la página principal aún es antigua pero las imágenes de 6 están publicadas,
+   comprueba que root /index.html quedó actualizado y la publicación Pages está en main /(root).
+
+No modifiques NIC Chile, Cloudflare, CNAME, HTTPS, ni configuración de Formspree.

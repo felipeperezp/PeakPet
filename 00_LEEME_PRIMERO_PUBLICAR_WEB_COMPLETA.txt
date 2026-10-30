@@ -1,0 +1,76 @@
+PEAKPET · SITIO WEB COMPLETO PARA GITHUB PAGES
+ACTUALIZACIÓN: BIOGRAFÍA PREMIUM DEL FUNDADOR + FOTOGRAFÍAS REALES
+Fecha de armado: 30 de octubre de 2026
+============================================================
+
+QUÉ CONTIENE
+- Sitio web PEAKPET completo, página principal y páginas en español/inglés/portugués.
+- Sección /fundador/ con historia del Dr. Felipe Andrés Pérez Pezoa.
+- Fotografía real con trofeos de BMX, fotografía de competencia BMX y retrato académico.
+- Logos oficiales entregados: THERAVET y ALANA, más PEAKPET y Centro Vet. Dr. Argandoña.
+- Méritos deportivos presentados sin fechas, según lo solicitado.
+- Trayectoria académica: Médico veterinario, DBA, MBA, Magíster y postgrado/maestría en Nutrición de Pequeños Animales EN CURSO.
+- /agendar/ con TidyCal, /gestion-agenda/ (herramientas de acceso profesional), Instagram @peakpet.cl, contacto Formspree y marcas aliadas.
+- Idiomas ES, EN y PT, sitemap.xml, robots.txt, favicon y CNAME.
+
+ESTE ZIP CONTIENE TODOS LOS ARCHIVOS; NO ES SOLO UN PARCHE.
+
+PUBLICACIÓN EN GITHUB PAGES — PASOS OBLIGATORIOS
+1. DESCARGA y DESCOMPRIME este ZIP en tu computador.
+2. Abre el repositorio que publica www.peakpet.cl (NO crees otro repositorio).
+3. En GitHub abre Settings → Pages → Build and deployment y confirma dónde publica:
+   - Si usa 'Deploy from a branch', anota la rama (por ejemplo main) y carpeta (/(root) o /docs).
+   - Si publica desde /(root), los archivos deben quedar en la raíz de esa rama.
+   - Si publica desde /docs, súbelos DENTRO de /docs (en ese caso evita conservar copias antiguas fuera).
+4. En Code, cambia a la MISMA rama que viste en Settings → Pages.
+5. Sube EL CONTENIDO DESCOMPRIMIDO (archivos y carpetas) conservando sus rutas.
+   NO subas el ZIP como un único archivo. NO subas una carpeta adicional que envuelva todos los archivos.
+6. En esa misma carpeta de publicación deben verse:
+     index.html
+     fundador/index.html
+     assets/felipe-bmx-trofeos-real.webp
+     assets/felipe-bmx-competicion-real.webp
+     assets/logo-theravet-oficial-usuario.webp
+     assets/logo-alana-oficial-usuario.webp
+     agendar/index.html
+     en/founder/index.html
+     pt/fundador/index.html
+     CNAME
+7. Al subir archivos de igual nombre/ruta, conserva la versión NUEVA. Confirma mediante Commit changes.
+8. En GitHub → Actions comprueba que el despliegue de Pages termine correctamente.
+9. Abre en Safari (idealmente ventana privada):
+   https://www.peakpet.cl/
+   https://www.peakpet.cl/fundador/
+   https://www.peakpet.cl/agendar/
+   https://www.peakpet.cl/en/founder/
+   https://www.peakpet.cl/pt/fundador/
+10. Comprueba que ves el titular 'Una vida dedicada a superar límites' junto con la fotografía real de trofeos y la fotografía compitiendo.
+
+SI SIGUES VIENDO 404 EN /fundador/
+A. Verifica en la pestaña Code que la carpeta fundador contiene un archivo llamado index.html, no 'fundador.html'.
+B. Comprueba si apareció por error 'nombre-de-carpeta/fundador/index.html' o 'docs/fundador/index.html' en una ruta que NO sea la carpeta configurada para Pages.
+C. Confirma que no quedó un index.html más antiguo en la carpeta desde donde publica GitHub Pages.
+D. Revisa en Actions el estado del último deploy y si hay mensajes de error.
+E. Recarga con Command + Shift + R, o prueba una ventana privada de Safari.
+
+SUMMARY PARA GITHUB
+PEAKPET - Sitio completo con biografía del fundador, fotos reales, logos y reservas
+
+INTEGRACIONES MANTENIDAS
+- Reserva TidyCal: https://tidycal.com/fperez4/evaluacion-nutricional-peakpet
+- Instagram: https://www.instagram.com/peakpet.cl/
+- Formulario de contacto Formspree: se conserva el identificador actual del HTML.
+- Dominio: CNAME con www.peakpet.cl; no borrar este archivo.
+- NOTA: la gestión profesional no está protegida por login propio; las acciones de TidyCal sí requieren inicio de sesión en su plataforma.
+
+FUENTES DE FOTOS
+- Foto con trofeos: IMG_1989.jpg (entregada por el usuario, convertida a WebP).
+- Foto carrera BMX: NVD-20240515-183808-266051.jpg (entregada por el usuario, convertida a WebP).
+- Logo THERAVET: imagen adjuntada por el usuario, optimizada para web.
+- Logo ALANA: imagen adjuntada por el usuario, optimizada para web.
+- Retrato académico y otros logos: archivos del proyecto PEAKPET previamente trabajados.
+
+ACLARACIONES
+- Los méritos deportivos incluidos proceden de los antecedentes proporcionados por el usuario.
+- Los estudios de Nutrición de Pequeños Animales se describen como formación EN CURSO, no título obtenido.
+- Publicar la web no envía invitaciones automáticamente; la agenda e invitaciones siguen gestionándose por TidyCal/Mac.

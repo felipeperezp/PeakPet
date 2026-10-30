@@ -1,0 +1,15 @@
+PEAKPET - HISTORIA DEL FUNDADOR
+----------------------------------
+Actualiza www.peakpet.cl conservando la identidad original.
+Nueva biografía: /fundador/ (español), /en/founder/ (inglés), /pt/fundador/ (portugués).
+Añade enlace "Fundador" al menú, pie de página y sección destacada en portada.
+Enlace de reserva TidyCal conservado en /agendar/.
+Medios locales de archivo: retratos y mascotas de antiguas piezas de TheraVet compartidas por el usuario.
+Imagen externa de BMX UCI: REFERENCIAL del evento 2018; no retrata necesariamente al Dr. Felipe Pérez. Para uso publicitario definitivo se recomienda reemplazar con foto propia de Felipe compitiendo o una imagen con permiso explícito. La imagen externa requiere acceso a internet.
+Fuentes en la página: LinkedIn profesional, diario El Observador/UVM, resultados oficiales de Federación Nacional de Ciclismo de Chile y UCI.
+Ciertas fechas de un CV de 2024 contenían discrepancias, por lo que se priorizaron fuentes públicas y se evitaron esas fechas.
+Si el usuario entrega fotografías originales de Felipe en competencia, en docencia o clínica, reemplazar las imágenes ilustrativas por esas fotografías verificadas.
+Los títulos DBA, MBA y magíster se mencionan según LinkedIn público y CV; Harvard se describe como educación ejecutiva, no como un título de Harvard.
+
+ACTUALIZACIÓN SOLICITADA: Se destaca Doctor of Business Administration (DBA) y que actualmente cursa posgrado/maestría en Nutrición de Pequeños Animales (dato confirmado por usuario, sin universidad identificada). Se incorpora sección dedicada a creación y desarrollo de ALANA, THERAVET y PEAKPET, y el relato sobre ciencia del alto rendimiento, métricas y máximo potencial de bienestar.
+Retrato académico adicional (ESAN) extraído de una presentación académica del propio Felipe previamente compartida en la biblioteca.

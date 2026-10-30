@@ -1,0 +1,26 @@
+PEAKPET — ARCHIVO VISUAL Y FUENTES (2026-10-30)
+
+ARCHIVOS EMPAQUETADOS EN assets/:
+- felipe-retrato-academico-2026.webp: retrato presente en la presentación profesional ESAN facilitada previamente.
+- logo-alana.webp y alana-foto-institucional.webp: presentación corporativa ALANA facilitada previamente. Web pública cotejada: https://www.alanapet.cl/
+- logo-theravet.webp y theravet-flyer-promocional.webp: recorte/compresión de material promocional THERAVET facilitado previamente. Web: https://www.theravet.cl/ (no recuperable desde el buscador en esta revisión).
+- logo-dr-argandona.webp: imagen original incrustada en firma institucional del Centro Veterinario Dr. Argandoña; web: https://www.drargandona.cl/
+- logo-oloc.webp: presentación corporativa OLOC previamente facilitada; web: https://www.oloc.cl/
+- peakpet-logo-horizontal-oficial-v3.png: logo oficial del sitio actual.
+- bmx-equipo-imagen-referencial.webp: fotografía de contexto de presentación de auspicio BMX facilitada anteriormente. No se identifica al fundador ni se presenta como foto documental suya.
+
+MATERIAL FOTOGRÁFICO PÚBLICO REVISADO (para referencia y solicitud de autorización si procede):
+- Entrevista UVM / El Observador con Felipe (2020): https://www.observador.cl/la-magia-esta-en-enamorarse-de-lo-que-uno-hace-dice-felipe-perez-medico-veterinario-titulado-de-la-primera-generacion-en-la-region/
+- Repositorio universitario: https://repositorio.uvm.cl/items/c1abbb33-91c1-475c-86a1-4da051a12e2a
+- Perfil profesional público: https://cl.linkedin.com/in/felipeperezpezoa
+- Resultados Mundial BMX Bakú (2018): https://jstiming.nl/jury/UCI/20180605-clubuits.pdf
+- Resultados Panamericano BMX 2025: https://fdnciclismochile.cl/wp-content/uploads/2025/02/1.-RESULTADOS-CHALLENGER-CAMPEONATO-PANAMERICANO-2025.pdf
+
+LOGOS PUBLICADOS (URL FUENTE DESDE LAS WEB OFICIALES; para referencia):
+- ALANA: https://static.wixstatic.com/media/d19a9d_54a0bd330a1648eaaad544368a5c9fd7~mv2.png
+- Dr. Argandoña: https://static.wixstatic.com/media/d19a9d_c1e5bbeb1e2f4313bf74c223a94f0059~mv2.png
+No fue posible recuperar los archivos binarios de estos dos enlaces remotos desde el entorno; en la web se han integrado recursos institucionales previos equivalentes.
+
+LICENCIAS: Antes de publicar fotografías de prensa, LinkedIn o fotógrafos independientes es necesario comprobar las condiciones de uso u obtener autorización. No se han empaquetado fotos ajenas de prensa sin permiso.
+
+PUBLICACIÓN: Subir el contenido del ZIP (no la carpeta contenedora) a la raíz del repositorio GitHub Pages. El archivo index.html de cada ruta reemplaza la versión anterior. No modifica TidyCal, ni credenciales, ni envía reservas desde la web.

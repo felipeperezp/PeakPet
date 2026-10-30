@@ -1,0 +1,40 @@
+PEAKPET — BIOGRAFÍA DEL FUNDADOR | EDICIÓN STORYTELLING
+===================================================================
+INCLUYE:
+- Página de fundador /fundador/ con foto REAL de Felipe y trofeos en portada.
+- Foto de competencia BMX proporcionada por el usuario (reemplaza imagen ilustrativa).
+- Fotografía académica procedente de la presentación ESAN.
+- Logos THERAVET y ALANA proporcionados por el usuario; además PEAKPET y Centro Vet. Dr. Argandoña.
+- Logros deportivos en viñetas, sin fechas, incluyendo los 18 títulos nacionales y sus logros en Estados Unidos.
+- Texto académico: Médico veterinario, DBA, MBA, Magíster en Dirección Comercial y Marketing.
+- Postgrado/maestría en Nutrición de Pequeños Animales identificado como EN CURSO.
+- CTA final y botón de agenda que apunta a /agendar/.
+- Versiones equivalentes en español, inglés y portugués.
+- En portada, enlace /fundador/ y foto con trofeos.
+- Se conservan el resto de la web: reservas, Instagram, formulario, páginas multilingües y recursos.
+
+PUBLICACIÓN GITHUB PAGES
+1. Descomprimir el ZIP.
+2. Subir TODO el contenido a la RAÍZ del mismo repositorio GitHub que sirve www.peakpet.cl.
+3. Conservar estructura de subcarpetas (fundador/, assets/, en/, pt/, agendar/...).
+4. Aceptar reemplazo de archivos existentes y confirmar (Commit changes).
+5. Revisar https://www.peakpet.cl/fundador/ y, luego, portada https://www.peakpet.cl/.
+6. Probar el botón 'Agenda su evaluación nutricional'.
+
+SUMMARY SUGERIDO:
+PEAKPET - Biografía storytelling del fundador con fotos reales, logos y logros deportivos
+
+FUENTES VISUALES:
+- IMG_1989.jpg: Felipe junto a trofeos BMX (facilitada por el usuario).
+- NVD-20240515-183808-266051.jpg: competición BMX (facilitada por el usuario).
+- image(20261030-122819).png: logo THERAVET (facilitado por el usuario).
+- logo Alana negro fin fondo jpg - copia.jpg: logo ALANA (facilitado por el usuario).
+- Archivo anterior PEAKPET: retrato académico ESAN, logo Centro Dr. Argandoña, logo PEAKPET.
+
+NOTA EDITORIAL:
+Los logros deportivos se publican sin fecha, según la solicitud del usuario. Las cifras y distinciones reflejan los antecedentes entregados por el usuario. No se afirma que los estudios en curso estén concluidos.
+
+CONTACTO Y RESERVAS:
+https://www.peakpet.cl/agendar/
+https://tidycal.com/fperez4/evaluacion-nutricional-peakpet
+Instagram: https://www.instagram.com/peakpet.cl/

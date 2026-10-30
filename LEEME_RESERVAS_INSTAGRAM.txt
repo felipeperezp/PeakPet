@@ -1,0 +1,30 @@
+PEAKPET · Instagram + reservas · versión final
+===============================================
+
+Perfil oficial de Instagram:
+https://www.instagram.com/peakpet.cl/
+
+El menú, el pie de página y la página de reservas contienen
+el ícono activo de Instagram, que abre @peakpet.cl.
+Los cambios aplican a las versiones en español, inglés y portugués.
+
+ENLACE PARA AGREGAR EN LA BIOGRAFÍA DE INSTAGRAM
+https://www.peakpet.cl/agendar/
+Título sugerido: 🐾 Agenda tu evaluación PEAKPET
+
+Publicación en GitHub Pages
+1. Descomprime este ZIP.
+2. Sube su CONTENIDO (no la carpeta contenedora) a la raíz del
+   repositorio que publica www.peakpet.cl.
+3. Acepta reemplazar los archivos anteriores y haz Commit changes.
+4. Tras publicarse, abre el sitio en ventana privada y verifica:
+   - Enlace a Instagram desde el menú y pie de página.
+   - Reserva desde /agendar/.
+   - Formulario de contacto existente.
+
+GESTIÓN PROFESIONAL (no figura en el menú público)
+https://www.peakpet.cl/gestion-agenda/
+La página enlaza a TidyCal para gestionar invitaciones; la autorización
+administrativa siempre depende de iniciar sesión en TidyCal.
+
+Se conserva el formulario del correo fperez@alanapet.cl y los logos.

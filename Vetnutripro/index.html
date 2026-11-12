@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VetNutri Pro - Evaluación Nutricional Veterinaria</title>
+<title>VetNutri Pro - Evaluación Nutricional Veterinaria | Razas internacionales</title>
 <style>
 :root{
   --navy:#15344c;
@@ -6211,6 +6211,72 @@ refreshExisting();refreshChoices();render();
  ['Shih Tzu',4,7],['Teckel / Dachshund',5,14.5],['Terranova',45,68],
  ['Weimaraner',25,41],['West Highland White Terrier',7,10],['Whippet',11,18],
  ['Yorkshire Terrier',2,4]
+,
+ // Nuevas razas: mantener sin rango poblacional cuando no hay un dato validado.
+ ['Affenpinscher',null,null],
+ ['Airedale Terrier',null,null],
+ ['Akita Americano',null,null],
+ ['Alaskan Klee Kai',null,null],
+ ['American Bulldog',null,null],
+ ['American Bully (tipo)',null,null],
+ ['American Eskimo Dog',null,null],
+ ['Basenji',null,null],
+ ['Bearded Collie',null,null],
+ ['Bedlington Terrier',null,null],
+ ['Bichón Habanero',null,null],
+ ['Bloodhound',null,null],
+ ['Boerboel',null,null],
+ ['Border Terrier',null,null],
+ ['Borzoi',null,null],
+ ['Braco Alemán de Pelo Duro',null,null],
+ ['Braco de Weimar (Weimaraner)',null,null],
+ ['Briard / Pastor de Brie',null,null],
+ ['Bullmastiff',null,null],
+ ['Cairn Terrier',null,null],
+ ['Catahoula Leopard Dog',null,null],
+ ['Chesapeake Bay Retriever',null,null],
+ ['Crestado Chino',null,null],
+ ['Coton de Tuléar',null,null],
+ ['Dogo de Burdeos',null,null],
+ ['English Setter',null,null],
+ ['Fila Brasileiro',null,null],
+ ['Flat-Coated Retriever',null,null],
+ ['Foxhound Inglés',null,null],
+ ['Galgo Español',null,null],
+ ['Greyhound',null,null],
+ ['Grifón de Bruselas',null,null],
+ ['Gran Pirineo',null,null],
+ ['Irish Setter',null,null],
+ ['Irish Wolfhound',null,null],
+ ['Keeshond',null,null],
+ ['Kerry Blue Terrier',null,null],
+ ['Komondor',null,null],
+ ['Lagotto Romagnolo',null,null],
+ ['Leonberger',null,null],
+ ['Lhasa Apso',null,null],
+ ['Mastín Tibetano',null,null],
+ ['Papillón',null,null],
+ ['Pastor Belga Groenendael',null,null],
+ ['Pastor Belga Tervueren',null,null],
+ ['Pastor de Anatolia',null,null],
+ ['Pastor de los Pirineos',null,null],
+ ['Perro de Agua Español',null,null],
+ ['Perro de Agua Portugués',null,null],
+ ['Presa Canario',null,null],
+ ['Rat Terrier',null,null],
+ ['Saluki',null,null],
+ ['Schipperke',null,null],
+ ['Scottish Terrier',null,null],
+ ['Setter Irlandés Rojo y Blanco',null,null],
+ ['Spaniel Bretón',null,null],
+ ['Springer Spaniel Inglés',null,null],
+ ['Staffordshire Bull Terrier',11,17.2],
+ ['Staffordshire Terrier (sin especificar)',null,null],
+ ['Tosa Inu',null,null],
+ ['Vizsla / Braco Húngaro',null,null],
+ ['Welsh Terrier',null,null],
+ ['Xoloitzcuintle',null,null],
+ ['Yorkshire Biewer / Biewer Terrier',null,null]
  ];
  const catData=[
  ['Abisinio',2.7,4.5],['Angora Turco',null,null],['Azul Ruso',null,null],
@@ -6224,6 +6290,16 @@ refreshExisting();refreshChoices();render();
  ];
  // Source ranges are adult-level orientation only. In juveniles, do not invent a normative weight.
  const lookup={canino:dogData,felino:catData};
+ // Catálogo internacional PEAKPET (FCI, TICA, CFA y denominaciones habituales).
+ // Puede incluir sinónimos, variedades, tipos y cruzas: no todo nombre es una raza reconocida por todos los registros.
+ // No asignar pesos de referencia a razas nuevas sin fuente validada.
+ const WORLD_BREED_CATALOG={canino:["Affenpinscher","Aidi (Perro del Atlas)","Airedale Terrier","Akbash","Akita Americano","Akita Inu","Alano Español","Alaskan Klee Kai","Alaskan Malamute","Alpenländische Dachsbracke","American Bulldog","American Bully (tipo)","American Eskimo Dog","American Foxhound","American Hairless Terrier","American Leopard Hound","American Pit Bull Terrier (tipo)","American Staffordshire Terrier","American Water Spaniel","Antiguo Perro Pastor Inglés (Bobtail)","Ariegeois","Armant (Pastor Egipcio)","Australian Cattle Dog","Australian Kelpie","Australian Shepherd","Australian Silky Terrier","Australian Stumpy Tail Cattle Dog","Australian Terrier","AzawakhBarbet","Basenji","Basset Artesiano Normando","Basset Azul de Gascuña","Basset Fauve de Bretagne","Basset Grifón Vendeano Grande","Basset Grifón Vendeano Pequeño","Basset Hound","Bayerischer Gebirgsschweisshund","Beagle","Beagle Harrier","Bearded Collie","Beauceron","Bedlington Terrier","Belgian Laekenois","Berger Picard","Bernedoodle (cruza)","Bichón Boloñés","Bichón Frisé","Bichón Habanero","Biewer Terrier","Black and Tan Coonhound","Black Mouth Cur","Bloodhound (San Huberto)","Bobtail","Boerboel","Border Collie","Border Terrier","Borzoi (Galgo Ruso)","Boston Terrier","Bouvier des Ardennes","Bouvier des Flandres","Boxer","Boyero Australiano","Boyero de Appenzell","Boyero de Berna","Boyero de Entlebuch","Bracco de Weimar (Weimaraner)","Braco Alemán de pelo corto","Braco Alemán de pelo duro","Braco de Auvernia","Braco de Bourbonnais","Braco de Burgos","Braco de Saint-Germain","Braco del Ariège","Braco Francés tipo Gascuña","Braco Francés tipo Pirineos","Braco Húngaro (Vizsla)","Braco Italiano","Braco Portugués","Briard (Pastor de Brie)","Broholmer","Buhund Noruego","Bull Terrier","Bull Terrier Miniatura","Bulldog Campeiro","Bulldog Continental","Bulldog Francés","Bulldog Inglés","Bullmastiff","Cairn Terrier","Cane Corso","Catahoula Leopard Dog","Cavalier King Charles Spaniel","Cesky Fousek","Cesky Terrier","Chesapeake Bay Retriever","Chihuahua","Chin Japonés","Chinese Crested Dog","Chinook","Chodsky Pes","Chow Chow","Cimarrón Uruguayo","Clumber Spaniel","Cockapoo (cruza)","Cocker Spaniel Americano","Cocker Spaniel Inglés","Collie de pelo corto","Collie de pelo largo","Coonhound Bluetick","Coonhound Redbone","Coton de Tuléar","Croatian Sheepdog","Curly-Coated Retriever","Cursinu","Cão da Serra da Estrela","Cão de Castro Laboreiro","Cão de Fila de São Miguel","Cão de Gado Transmontano","Cão de Água Português","Dachshund (Teckel)","Dandie Dinmont Terrier","Deerhound Escocés","Doberman Pinscher","Dogo Argentino","Dogo de Burdeos","Dogo del Tíbet","Dogo Guatemalteco","Dogo Mallorquín (Ca de Bou)","Dogo Sardesco","Drever","Dutch Shepherd","Dálmata","Eesti Hagijas (Sabueso Estonio)","English Cocker Spaniel","English Foxhound","English Pointer","English Setter","English Springer Spaniel","English Toy Spaniel","Entlebucher Mountain Dog","Epagneul Bleu de Picardie","Epagneul de Pont-Audemer","Epagneul Français","Epagneul Picard","Eurasier","Field Spaniel","Fila Brasileiro","Finnish Lapphund","Finnish Spitz","Flat-Coated Retriever","Fox Terrier de pelo duro","Fox Terrier de pelo liso","Foxhound Americano","Foxhound Inglés","Galgo Afgano","Galgo Español","Galgo Italiano","Galgo Polaco","Gammel Dansk Hønsehund","Gascon Saintongeois","Golden Retriever","Goldendoodle (cruza)","Gordon Setter","Gos Rater Valencià","Gran Basset Grifón Vendeano","Gran Boyero Suizo","Gran Danés","Gran Münsterländer","Gran Pirineo (Perro de Montaña de los Pirineos)","Gran Sabueso Anglo-Francés Blanco y Naranja","Gran Sabueso Anglo-Francés Blanco y Negro","Gran Sabueso Anglo-Francés Tricolor","Greyhound (Galgo Inglés)","Grifón Belga","Grifón de Bruselas","Grifón de pelo duro Korthals","Grifón Nivernais","Hamiltonstövare","Hanoverian Scenthound","Harrier","Hokkaido","Hovawart","Husky Siberiano","Ibizan Hound (Podenco Ibicenco)","Irish Glen of Imaal Terrier","Irish Red and White Setter","Irish Setter","Irish Soft Coated Wheaten Terrier","Irish Terrier","Irish Water Spaniel","Irish Wolfhound","Italian Spinone","Jack Russell Terrier","Jagdterrier Alemán","Jamthund","Japanese Spitz","Kai Ken","Kangal","Karelian Bear Dog","Keeshond","Kerry Blue Terrier","Kishu Ken","Komondor","Kooikerhondje","Korean Jindo","Kromfohrländer","Kuvasz","Labradoodle (cruza)","Labrador Retriever","Lagotto Romagnolo","Lakeland Terrier","Lancashire Heeler","Landseer","Lapón Sueco","Lebrel Afgano","Leonberger","Lhasa Apso","Löwchen (Pequeño Perro León)","Macedonian Shepherd Dog Karaman","Maltés","Manchester Terrier","Maremmano Abruzzese Sheepdog","Mastín de los Pirineos","Mastín del Tíbet","Mastín Español","Mastín Inglés","Mastín Napolitano","Miniature American Shepherd","Miniature Bull Terrier","Miniature Pinscher","Miniature Schnauzer","Mudi","Münsterländer Pequeño","Norfolk Terrier","Norwegian Buhund","Norwegian Elkhound Gris","Norwegian Elkhound Negro","Norwich Terrier","Nova Scotia Duck Tolling Retriever","Old English Sheepdog","Otterhound","Papillón","Parson Russell Terrier","Pastor Alemán","Pastor Australiano","Pastor Belga Groenendael","Pastor Belga Laekenois","Pastor Belga Malinois","Pastor Belga Tervueren","Pastor Bergamasco","Pastor Blanco Suizo","Pastor Catalán","Pastor de Anatolia","Pastor de Asia Central","Pastor de Beauce","Pastor de Brie","Pastor de los Pirineos","Pastor de Shetland","Pastor del Cáucaso","Pastor Holandés","Pastor Islandés","Pastor Maremmano-Abrucés","Pastor Polaco de las Llanuras","Pastor Rumano Corb","Pastor Rumano de los Cárpatos","Pastor Rumano Miorítico","Pastor Vasco","Patterdale Terrier","Pekinés","Pequeño Basset Grifón Vendeano","Pequeño Brabanzón","Perdiguero de Burgos","Perdiguero de Drente","Perdiguero de Navarra","Perdiguero Portugués","Perro de Agua Americano","Perro de Agua de Barbet","Perro de Agua Español","Perro de Agua Frisón","Perro de Agua Irlandés","Perro de Agua Portugués","Perro de Agua Romagnolo","Perro de Groenlandia","Perro de Montaña de los Pirineos","Perro de Montaña del Atlas","Perro de San Huberto","Perro de San Juan (histórico)","Perro Lobo Checoslovaco","Perro Lobo de Saarloos","Perro sin pelo del Perú","Petit Bleu de Gascogne","Petit Brabançon","Pharaoh Hound","Pinscher Alemán","Pinscher Austriaco","Pinscher Miniatura","Pitbull (tipo)","Plott Hound","Podenco Andaluz","Podenco Canario","Podenco Ibicenco","Podenco Portugués","Pointer Alemán","Pointer Inglés","Poitevin","Polish Hound","Pomerania","Poodle Estándar","Poodle Miniatura","Poodle Toy","Porcelaine","Prazský Krysařík (Ratonero de Praga)","Presa Canario","Pudelpointer","Pug (Carlino)","Puli","Pumi","Pyrenean Shepherd","Rafeiro do Alentejo","Rat Terrier","Ratonero Bodeguero Andaluz","Ratonero Mallorquín","Redbone Coonhound","Rhodesian Ridgeback","Rottweiler","Rough Collie","Russian Black Terrier","Russian Toy","Sabueso Alemán","Sabueso Anglo-Francés de Tamaño Mediano","Sabueso Azul de Gascuña","Sabueso de Baviera","Sabueso de Berna","Sabueso de Bosnia de pelo duro","Sabueso de Estonia","Sabueso de Finlandia","Sabueso de Hannover","Sabueso de Istria de pelo corto","Sabueso de Istria de pelo duro","Sabueso de Lucerna","Sabueso de Montaña de Montenegro","Sabueso de Schiller","Sabueso de Schwyz","Sabueso de Serbia","Sabueso del Jura","Sabueso del Tirol","Sabueso Eslovaco","Sabueso Español","Sabueso Fino Colombiano","Sabueso Francés Blanco y Naranja","Sabueso Francés Blanco y Negro","Sabueso Francés Tricolor","Sabueso Griego","Sabueso Halden","Sabueso Italiano","Sabueso Polaco","Sabueso Suizo","Saluki","Samoyedo","San Bernardo","Sarplaninac","Schapendoes","Schipperke","Schnauzer Estándar","Schnauzer Gigante","Schnauzer Miniatura","Scottish Terrier","Sealyham Terrier","Segugio dell'Appennino","Segugio Italiano de pelo corto","Segugio Italiano de pelo duro","Setter Gordon","Setter Inglés","Setter Irlandés","Setter Irlandés Rojo y Blanco","Shar Pei","Sheltie (Pastor de Shetland)","Shiba Inu","Shih Tzu","Shikoku","Silken Windhound","Skye Terrier","Sloughi","Slovak Cuvac","Smålandsstövare","Soft Coated Wheaten Terrier","Spinone Italiano","Spitz Alemán Enano","Spitz Alemán Grande","Spitz Alemán Mediano","Spitz Alemán Pequeño","Spitz Finlandés","Spitz Japonés","Springer Spaniel Galés","Springer Spaniel Inglés","Stabyhoun","Staffordshire Bull Terrier","Staffordshire Terrier (sin especificar)","Sussex Spaniel","Swedish Lapphund","Swedish Vallhund","Taigan","Taiwan Dog","Tatranský Durič","Teckel Estándar","Teckel Kaninchen","Teckel Miniatura","Terranova","Thai Bangkaew Dog","Thai Ridgeback","Tibetan Spaniel","Tibetan Terrier","Tosa Inu","Toy Fox Terrier","Toy Manchester Terrier","Treeing Walker Coonhound","Valencian Ratter","Vizsla (Braco Húngaro)","Volpino Italiano","Weimaraner","Welsh Corgi Cardigan","Welsh Corgi Pembroke","Welsh Springer Spaniel","Welsh Terrier","West Highland White Terrier","Wetterhoun","Whippet","White Swiss Shepherd Dog","Wire Fox Terrier","Wirehaired Pointing Griffon","Wirehaired Vizsla","Xoloitzcuintle","Yakutian Laika","Yorkshire Terrier","Zerdava","Zwergpinscher"],felino:["Abisinio (Abyssinian)","American Bobtail","American Bobtail Shorthair","American Curl","American Curl Longhair","American Shorthair","American Wirehair","Angora Turco (Turkish Angora)","Australian Mist","Azul Ruso (Russian Blue)","Balinés (Balinese)","Bengal Longhair","Bengalí (Bengal)","Birmano (Birman)","Bombay","Bosque de Noruega (Norwegian Forest)","British Longhair","British Shorthair","Burmilla","Burmilla Longhair","Burmés (Burmese)","Chartreux (Cartujo)","Chausie","Cherubim","Colorpoint Shorthair","Cornish Rex","Cymric","Cymric Tailed","Devon Rex","Don Sphynx (Donskoy)","Egyptian Mau","Europeo de pelo corto (European Shorthair)","Exótico de pelo corto (Exotic Shorthair)","German Rex","Havana Brown","Highlander","Highlander Shorthair","Himalayo (Himalayan)","Japanese Bobtail","Japanese Bobtail Longhair","Khao Manee","Korat","Kurilian Bobtail","Kurilian Bobtail Longhair","LaPerm","LaPerm Shorthair","Lykoi","Maine Coon","Maine Coon Polydactyl","Manx","Manx Tailed","Minuet","Minuet Longhair","Minuet Talls","Minuet Talls Longhair","Munchkin","Munchkin Longhair","Nebelung","Ocicat","Oriental de pelo corto (Oriental Shorthair)","Oriental de pelo largo (Oriental Longhair)","Persa (Persian)","Peterbald","Pixie-bob","Pixie-bob Longhair","Ragamuffin","Ragdoll","Russian Blue","Savannah","Scottish Fold","Scottish Fold Longhair","Scottish Straight","Scottish Straight Longhair","Selkirk Rex","Selkirk Rex Longhair","Serengeti","Siamés (Siamese)","Siberiano (Siberian)","Singapura","Snowshoe","Somalí (Somali)","Sphynx","Tennessee Rex","Thai","Tonkinés (Tonkinese)","Toybob","Toyger","Turkish Angora","Turkish Van","Ukrainian Levkoy","York Chocolate (histórico)"]};
+ for(const [kind,names] of Object.entries(WORLD_BREED_CATALOG)){
+   const list=kind==='felino'?catData:dogData;
+   const seen=new Set(list.map(entry=>normalizedBreed(entry[0])));
+   for(const raw of names){const name=String(raw).trim(),key=normalizedBreed(name);if(!name||seen.has(key))continue;list.push([name,null,null]);seen.add(key);}
+ }
+
  const style=document.createElement('style');
  style.id='vn-breed-design-style';
  style.textContent=`
@@ -6240,6 +6316,11 @@ refreshExisting();refreshChoices();render();
  .vn-track .vn-fill{height:100%;background:#0BAEAD;border-radius:20px;max-width:100%}
  .vn-clinical-note{font-size:11px;color:#7A8589;margin-top:6px}
  .vn-param-note{font-size:11px;line-height:1.3;margin-top:6px;color:#62737A}
+ .vn-breed-search{margin-bottom:8px;width:100%;min-width:0}
+ .vn-breed-count{display:block;font-size:11px;color:#576c76;margin-top:6px;line-height:1.4}
+ .vn-breed-input-group{display:flex;align-items:center;gap:6px}
+ .vn-breed-input-group button{font-size:11px;white-space:nowrap}
+ 
  @media(max-width:750px){.vn-profile-grid,.vn-clinical-grid{grid-template-columns:1fr}}
  `;
  document.head.appendChild(style);
@@ -6248,10 +6329,16 @@ refreshExisting();refreshChoices();render();
  breed.type='hidden';
  const parent=breed.closest('.field');
  if(!parent)return;
- parent.querySelector('label').textContent='Raza (lista predeterminada / ingreso manual)';
- const picker=document.createElement('select');picker.id='vnBreedSelect';picker.setAttribute('aria-label','Raza');
- const free=document.createElement('input');free.id='vnBreedManual';free.placeholder='Escribe la raza si no está en el listado';free.style.marginTop='8px';free.hidden=true;
- parent.append(picker,free);
+ parent.querySelector('label').textContent='Raza (catálogo internacional / ingreso manual)';
+ const breedSearch=document.createElement('input');breedSearch.type='search';breedSearch.id='vnBreedSearch';breedSearch.className='vn-breed-search';breedSearch.placeholder='Buscar raza: Staffordshire, Maine Coon...';breedSearch.autocomplete='off';breedSearch.setAttribute('aria-label','Buscar raza de perro o gato');
+ const picker=document.createElement('select');picker.id='vnBreedSelect';picker.setAttribute('aria-label','Seleccionar raza del paciente');
+ const free=document.createElement('input');free.id='vnBreedManual';free.placeholder='Escribe la raza o cruza del paciente';free.style.marginTop='8px';free.maxLength=90;free.autocomplete='off';free.hidden=true;free.setAttribute('aria-label','Ingresar raza manualmente');
+ const saveBreed=document.createElement('button');saveBreed.type='button';saveBreed.id='vnSaveBreed';saveBreed.className='secondary';saveBreed.textContent='Añadir esta raza a mis opciones';saveBreed.style.marginTop='8px';saveBreed.hidden=true;
+ const freeHelp=document.createElement('small');freeHelp.id='vnBreedHelp';freeHelp.className='muted';freeHelp.style.display='block';freeHelp.style.marginTop='6px';
+ freeHelp.textContent='Busca por nombre (admite tildes y nombres internacionales) o selecciona «Otra raza / ingreso manual». Las razas creadas se conservan en este navegador cuando el almacenamiento local lo permite.';
+ const breedCount=document.createElement('small');breedCount.id='vnBreedCount';breedCount.className='vn-breed-count';breedCount.setAttribute('aria-live','polite');
+ const breedNotice=document.createElement('div');breedNotice.id='vnBreedNotice';breedNotice.className='muted';breedNotice.setAttribute('role','status');breedNotice.setAttribute('aria-live','polite');
+ parent.append(breedSearch,picker,free,saveBreed,freeHelp,breedCount,breedNotice);
  const sexField=document.createElement('div');sexField.className='field';
  sexField.innerHTML='<label for="vnPetSex">Sexo</label><select id="vnPetSex"><option value="">No registrado</option><option value="macho">Macho</option><option value="hembra">Hembra</option></select>';
  parent.insertAdjacentElement('afterend',sexField);
@@ -6259,31 +6346,75 @@ refreshExisting();refreshChoices();render();
  const panel=document.createElement('div');panel.id='vnBreedReference';panel.className='vn-breed-hint';panel.setAttribute('aria-live','polite');
  const fields=get('paciente').querySelector('.grid3');
  if(fields)fields.insertAdjacentElement('afterend',panel); else get('paciente').appendChild(panel);
+ // Listas personales por especie. Se guardan solo en el navegador actual.
+ const customBreedKey='VN_CUSTOM_BREEDS_V1';
+ function normalizedBreed(str){return String(str||'').trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');}
+ function readCustomBreeds(){
+   try{
+     const value=JSON.parse(localStorage.getItem(customBreedKey)||'{}');
+     return {canino:Array.isArray(value.canino)?value.canino.filter(x=>typeof x==='string').slice(0,400):[],felino:Array.isArray(value.felino)?value.felino.filter(x=>typeof x==='string').slice(0,400):[]};
+   }catch(e){return {canino:[],felino:[]};}
+ }
  function breeds(){return lookup[get('species')?.value||'canino']||dogData;}
+ function availableBreedNames(){
+   const standard=breeds().map(x=>x[0]),species=get('species')?.value==='felino'?'felino':'canino';
+   const personal=readCustomBreeds()[species]||[];
+   const distinct=new Map();
+   [...standard,...personal].forEach(name=>{const value=String(name).trim();if(value&&!distinct.has(normalizedBreed(value)))distinct.set(normalizedBreed(value),value);});
+   return [...distinct.values()].sort((a,b)=>a.localeCompare(b,'es',{sensitivity:'base'}));
+ }
+ function showManual(show){free.hidden=!show;saveBreed.hidden=!show;}
  function fillBreeds(keep=true){
-   const prior=keep?breed.value:'';picker.replaceChildren();
+   const prior=keep?breed.value:'';
+   const query=normalizedBreed(breedSearch.value);
+   const all=availableBreedNames();
+   const visible=query?all.filter(name=>normalizedBreed(name).includes(query)):all;
+   picker.replaceChildren();
    picker.add(new Option('Seleccionar raza',''));
    picker.add(new Option('Mestizo / sin raza definida','Mestizo'));
-   breeds().forEach(([name])=>picker.add(new Option(name,name)));
+   visible.forEach(name=>picker.add(new Option(name,name)));
+   // Keep an already selected value when refining the search: changing the filter never erases the patient record.
+   if(prior&&prior!=='Mestizo'&&!visible.some(name=>normalizedBreed(name)===normalizedBreed(prior))){
+     picker.add(new Option('Raza actual: '+prior,prior));
+   }
    picker.add(new Option('Otra raza / ingreso manual','__other__'));
-   const matches=[...picker.options].some(o=>o.value===prior);
-   picker.value=matches?prior:(prior?'__other__':'');
-   free.value=!matches?prior:'';free.hidden=picker.value!=='__other__';
+   const match=[...picker.options].find(o=>normalizedBreed(o.value)===normalizedBreed(prior));
+   picker.value=match?match.value:(prior?'__other__':'');
+   free.value=!match?prior:'';showManual(picker.value==='__other__');
+   const species=get('species')?.value==='felino'?'Gatos':'Perros';
+   breedCount.textContent=species+': '+all.length+' denominaciones, variedades y tipos. Mostrando '+visible.length+(query?' resultados para «'+breedSearch.value+'»':'')+'. El listado incluye sinónimos y cruces, y no equivale a una clasificación oficial única.';
  }
  function updateBreed(){
-   const sel=picker.value;
-   free.hidden=sel!=='__other__';
-   breed.value=sel==='__other__'?free.value:sel;
+   const sel=picker.value,manual=sel==='__other__';
+   showManual(manual);
+   breed.value=manual?free.value.trim():sel;
+   breedNotice.textContent='';
    dirty=true;get('approved').checked=false;
    update();
  }
- picker.addEventListener('change',updateBreed);
+ breedSearch.addEventListener('input',()=>fillBreeds(true));
+ picker.addEventListener('change',()=>{updateBreed();if(picker.value==='__other__')free.focus();});
  free.addEventListener('input',updateBreed);
- get('species').addEventListener('change',()=>{breed.value='';fillBreeds(false);render();});
+ breed.addEventListener('input',()=>{fillBreeds(true);render();});
+ breed.addEventListener('change',()=>{fillBreeds(true);render();});
+ saveBreed.addEventListener('click',()=>{
+   const name=free.value.trim().replace(/\s+/g,' ').slice(0,90);
+   if(name.length<2){breedNotice.textContent='Ingresa una raza válida (al menos 2 caracteres).';free.focus();return;}
+   const species=get('species')?.value==='felino'?'felino':'canino';
+   const existing=availableBreedNames().find(x=>normalizedBreed(x)===normalizedBreed(name));
+   if(existing){breed.value=existing;fillBreeds(true);updateBreed();breedNotice.textContent='Esta raza ya estaba en el listado.';return;}
+   const storage=readCustomBreeds();
+   storage[species].push(name);
+   try{localStorage.setItem(customBreedKey,JSON.stringify(storage));}
+   catch(e){breedNotice.textContent='No se pudo guardar permanentemente en este navegador. La raza seguirá en la ficha.';breed.value=name;update();return;}
+   breed.value=name;fillBreeds(true);updateBreed();
+   breedNotice.textContent='Raza añadida a las opciones de '+(species==='canino'?'perros':'gatos')+' de este navegador.';
+ });
+ get('species').addEventListener('change',()=>{breed.value='';breedSearch.value='';fillBreeds(false);render();});
  const prevRestore=typeof restore==='function'?restore:null;
- if(prevRestore){restore=function(record){prevRestore(record);fillBreeds(true);render();};}
+ if(prevRestore){restore=function(record){prevRestore(record);breedSearch.value='';fillBreeds(true);render();};}
  const prevNew=typeof newPatient==='function'?newPatient:null;
- if(prevNew){newPatient=function(){prevNew();fillBreeds(false);render();};}
+ if(prevNew){newPatient=function(){prevNew();breedSearch.value='';fillBreeds(false);render();};}
  const sex=get('vnPetSex');['input','change'].forEach(ev=>sex.addEventListener(ev,()=>{dirty=true;get('approved').checked=false;update();}));
  function getBreedStatus(){
    const name=breed.value;const entry=breeds().find(x=>x[0]===name);
@@ -6291,6 +6422,7 @@ refreshExisting();refreshChoices();render();
    const age=Number(get('age')?.value);const hasAge=get('age')?.value!==''&&Number.isFinite(age)&&age>=0;
    if(!name)return {name:'',label:'Selecciona una raza para mostrar la referencia poblacional.',min:null,max:null,status:'Pendiente'};
    if(name==='Mestizo')return {name,label:'Mestizo: sin rango racial único. Considerar talla, estructura corporal, BCS y condición muscular.',min:null,max:null,status:'No aplica'};
+   if(name==='Staffordshire Terrier (sin especificar)')return {name,label:'Especifica, si es posible, si corresponde a American Staffordshire Terrier o Staffordshire Bull Terrier. Son razas distintas y no se asigna un rango de peso único al tipo genérico.',min:null,max:null,status:'Subtipo por confirmar'};
    if(!entry||!Number.isFinite(entry[1])||!Number.isFinite(entry[2]))return {name,label:'No hay una referencia poblacional suficientemente consistente para esta raza. Evaluar el peso con BCS, MCS y controles.',min:null,max:null,status:'No disponible'};
    const [_,min,max]=entry;
    const maturity=get('species').value==='felino'?(['Maine Coon','Ragdoll','Siberiano','Bosque de Noruega'].includes(name)?36:18):(max<10?12:max<25?15:max<40?18:24);

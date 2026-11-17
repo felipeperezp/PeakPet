@@ -7436,7 +7436,7 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
  const $=id=>document.getElementById(id);
  const sec=$('paciente');if(!sec)return;
  const panel=document.createElement('div');panel.id='vn-tutor-import';
- panel.innerHTML='<h3>Preconsulta del tutor · cargar respuestas y fotografías</h3><p class="vn-tutor-note">Solicita al tutor el archivo .json generado por su formulario. Este archivo incluye respuestas y tres imágenes. Si coincide el nombre del paciente y del tutor, se adjuntará como nueva evolución clínica a la ficha anterior. El profesional deberá validar la información y aprobar las indicaciones.</p><label for="vnTutorImportFile">Archivo recibido del tutor (.json)</label><input type="file" id="vnTutorImportFile" accept=".json,application/json"><p class="vn-tutor-status" id="vnTutorImportStatus">Pendiente de carga. No se importa información sin seleccionarla.</p><div id="vn-tutor-detail" hidden><b>Datos declarados por el tutor · pendientes de validación veterinaria</b><p id="vn-tutor-memo"></p><div class="vn-tutor-photos" id="vn-tutor-photos"></div></div>';
+ panel.innerHTML='<h3>Preconsulta del tutor · cargar respuestas y fotografías</h3><p class="vn-tutor-note">Solicita al tutor el archivo .json generado por su formulario. Este archivo incluye respuestas y tres imágenes. Si coincide el nombre del paciente y del tutor, se adjuntará como nueva evolución clínica a la ficha anterior. El profesional deberá validar la información y aprobar las indicaciones.</p><label for="vnTutorImportFile">Importar preconsulta o historial longitudinal (.json, sin límite fijo de MB)</label><input type="file" id="vnTutorImportFile" accept=".json,application/json"><p class="vn-tutor-status" id="vnTutorImportStatus">Pendiente de carga. No se importa información sin seleccionarla.</p><div id="vn-tutor-detail" hidden><b>Datos declarados por el tutor · pendientes de validación veterinaria</b><p id="vn-tutor-memo"></p><div class="vn-tutor-photos" id="vn-tutor-photos"></div></div>';
  sec.insertBefore(panel,sec.querySelector('hr')||sec.firstChild);
  let cached=null;
  const set=id=>$(id);
@@ -7447,7 +7447,8 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
    if(!data||data.application!=='VetNutri Tutor Preconsulta'||data.schemaVersion!==1)throw new Error('Este archivo no corresponde al formulario de preconsulta VetNutri Pro.');
    const p=data.patient,f=data.feeding;
    if(!p||!f||!p.petName||!p.owner||!['canino','felino'].includes(p.species))throw new Error('El archivo no incluye los datos mínimos del paciente.');
-   for(const ph of Object.values(data.photos||{}))if(ph?.image&&(!photoPattern.test(ph.image)||ph.image.length>3200000))throw new Error('Una fotografía tiene un formato o tamaño no admitido.');
+   // Validar la codificación de las imágenes sin imponer un tamaño máximo arbitrario.
+   for(const ph of Object.values(data.photos||{}))if(ph?.image&&!photoPattern.test(ph.image))throw new Error('Una fotografía tiene un formato no admitido. Se aceptan imágenes JPEG, PNG o WebP en base64.');
    return data;
  }
  function display(data){
@@ -7479,8 +7480,17 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
  $('vnTutorImportFile').addEventListener('change',async e=>{
   const file=e.target.files?.[0];if(!file)return;
   try{
-   if(file.size>9*1024*1024)throw new Error('El archivo supera los 9 MB y no se puede importar.');
-   const data=safe(JSON.parse(await file.text()));
+   // Sin límite fijo de MB para importar JSON: el navegador gestiona la memoria disponible.
+   $('vnTutorImportStatus').textContent='Leyendo archivo JSON ('+(file.size/1048576).toFixed(1)+' MB)… No cierres esta pestaña.';
+   const imported=JSON.parse(await file.text());
+   // Un historial longitudinal también puede importarse desde este selector visible.
+   if(imported?.application==='VetNutri Pro - Registro Longitudinal'){
+     if(!window.VN_REGISTRY?.importAll)throw new Error('El módulo de historial todavía no está preparado. Intenta usar «Recuperar respaldo de fichas».');
+     const outcome=await window.VN_REGISTRY.importAll(file,imported);
+     $('vnTutorImportStatus').textContent=outcome===false?'Importación cancelada.':'Historial longitudinal importado: '+outcome.imported+' fichas procesadas. Selecciona el paciente en el listado de fichas.';
+     return;
+   }
+   const data=safe(imported);
    if(!confirm('¿Incorporar la preconsulta de '+data.patient.petName+' a su ficha clínica y registrar una evolución fechada? Se conservarán las evoluciones anteriores. Si tienes cambios sin guardar, guárdalos primero.'))return;
    const p=data.patient,f=data.feeding,a=data.activity||{};
    if(![...$('neutered').options].some(x=>x.value===''))$('neutered').add(new Option('Sin confirmar (tutor)',''));
@@ -7672,26 +7682,41 @@ async function exportAll(){await registry.ensureReady();
  const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
  downloadBlob(blob,'VetNutri_Respaldo_Todas_Las_Fichas_'+new Date().toISOString().slice(0,10)+'.json');
 }
-async function importAll(file){await registry.ensureReady();
- const raw=JSON.parse(await file.text());if(raw.application!=='VetNutri Pro - Registro Longitudinal'||raw.version!==1||!Array.isArray(raw.patients))throw new Error('Archivo no compatible con respaldo longitudinal');
- if(!confirm('¿Importar '+raw.patients.length+' fichas? Las fichas con el mismo ID se actualizarán.'))return;
- for(const record of raw.patients){if(!record?.id||!record.data?.fields)continue;
-  await putPatient(record);for(const k of new Set([record.photoRef,...(record.history||[]).map(x=>x.photoRef)].filter(Boolean))){
-    if(raw.media?.[k]&&!db)sessionMedia.set(k,raw.media[k]);
-    if(raw.media?.[k]&&db){await new Promise((resolve,reject)=>{const tx=db.transaction('media','readwrite');tx.objectStore('media').put({id:k,photos:raw.media[k]});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+async function importAll(file,preparsed=null){await registry.ensureReady();
+  // No limitar el tamaño: únicamente la memoria y cuota real del navegador pueden condicionar una carga enorme.
+  badge('Leyendo respaldo JSON ('+(file.size/1048576).toFixed(1)+' MB)…',true);
+  const raw=preparsed??JSON.parse(await file.text());
+  if(raw.application!=='VetNutri Pro - Registro Longitudinal'||raw.version!==1||!Array.isArray(raw.patients))throw new Error('Archivo no compatible con respaldo longitudinal');
+  if(!confirm('¿Importar '+raw.patients.length+' fichas? Las fichas con el mismo ID se actualizarán.')){badge('Importación cancelada',false);return false;}
+  let imported=0;
+  try{
+   for(const record of raw.patients){if(!record?.id||!record.data?.fields)continue;
+    await putPatient(record);for(const k of new Set([record.photoRef,...(record.history||[]).map(x=>x.photoRef)].filter(Boolean))){
+      if(raw.media?.[k]&&!db)sessionMedia.set(k,raw.media[k]);
+      if(raw.media?.[k]&&db){await new Promise((resolve,reject)=>{const tx=db.transaction('media','readwrite');tx.objectStore('media').put({id:k,photos:raw.media[k]});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+    }
+    imported++;
+    if(imported%10===0){badge('Importando historial: '+imported+' de '+raw.patients.length+' fichas…',true);await new Promise(resolve=>setTimeout(resolve,0));}
+   }
+  }catch(error){
+    // No ocultar los registros que sí se hayan alcanzado a almacenar.
+    if(db)patients=await allPatients();
+    renderPatients();
+    badge('Importación interrumpida tras '+imported+' fichas: '+error.message,false);
+    throw error;
   }
+  if(db)patients=await allPatients();else {for(const record of raw.patients){if(!record?.id||!record.data?.fields)continue;const ix=patients.findIndex(p=>p.id===record.id);if(ix>=0)patients[ix]=record;else patients.push(record);}}
+  renderPatients();renderLog(null);badge('Respaldo importado · '+imported+' fichas · '+patients.length+' pacientes'+(db?'':' · exporta cambios antes de cerrar'),!!db);
+  return {imported,total:patients.length};
  }
- if(db)patients=await allPatients();else {for(const record of raw.patients){const ix=patients.findIndex(p=>p.id===record.id);if(ix>=0)patients[ix]=record;else patients.push(record);}}
- renderPatients();renderLog(null);badge('Respaldo importado · '+patients.length+' pacientes'+(db?'':' · exporta cambios antes de cerrar'),!!db);
-}
 function mount(){
  const sec=q('paciente');if(!sec)return;
  const ui=document.createElement('div');ui.className='vn-registry-panel';ui.id='vnRegistryPanel';
- ui.innerHTML='<h3>Ficha longitudinal · Historial clínico del paciente</h3><p>Los registros manuales y las preconsultas importadas se vinculan por <strong>nombre del paciente + tutor</strong>. Cada modificación guarda una evolución fechada; las fotos del tutor se conservan en el registro de su control.</p><p class="vn-registry-state" id="vnRegistryState">Inicializando almacenamiento de fichas...</p><div class="vn-registry-actions"><button id="vnRegistryExport" type="button">Exportar todas las fichas y fotos</button><label for="vnRegistryImport" class="vn-registry-import">Recuperar respaldo de fichas</label><input id="vnRegistryImport" type="file" accept=".json,application/json" hidden></div><h4>Evoluciones registradas</h4><div id="vnRegistryTimeline"></div><p class="vn-registry-hint">El registro se conserva en el almacenamiento de <strong>este navegador y este origen</strong>, no dentro del archivo HTML. Exporta periódicamente el respaldo completo para trasladarlo a otro equipo o evitar pérdidas al limpiar datos del navegador.</p>';
+ ui.innerHTML='<h3>Ficha longitudinal · Historial clínico del paciente</h3><p>Los registros manuales y las preconsultas importadas se vinculan por <strong>nombre del paciente + tutor</strong>. Cada modificación guarda una evolución fechada; las fotos del tutor se conservan en el registro de su control.</p><p class="vn-registry-state" id="vnRegistryState">Inicializando almacenamiento de fichas...</p><div class="vn-registry-actions"><button id="vnRegistryExport" type="button">Exportar todas las fichas y fotos</button><label for="vnRegistryImport" class="vn-registry-import">Recuperar respaldo de fichas (sin límite fijo de MB)</label><input id="vnRegistryImport" type="file" accept=".json,application/json" hidden></div><h4>Evoluciones registradas</h4><div id="vnRegistryTimeline"></div><p class="vn-registry-hint">El registro se conserva en el almacenamiento de <strong>este navegador y este origen</strong>, no dentro del archivo HTML. Exporta periódicamente el respaldo completo para trasladarlo a otro equipo o evitar pérdidas al limpiar datos del navegador.</p>';
  const before=q('vn-tutor-import');if(before)before.insertAdjacentElement('afterend',ui);else sec.prepend(ui);
  const style=document.createElement('style');style.textContent='.vn-registry-panel{background:#F7FAFA;border:1px solid #C9E0DE;border-left:5px solid #0BAEAD;border-radius:12px;padding:17px;margin:20px 0}.vn-registry-panel h3{margin:0 0 8px}.vn-registry-panel h4{margin:13px 0 6px}.vn-registry-panel p{font-size:12px;line-height:1.6}.vn-registry-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:12px 0}.vn-registry-import{padding:10px 13px;border-radius:8px;background:#E5F1F0;color:#087D82;cursor:pointer;font-weight:700}.vn-registry-state{font-weight:700}.vn-history-entry{border:1px solid #DDE4E6;border-radius:9px;margin:8px 0;padding:8px 11px;background:#fff}.vn-history-entry>summary{cursor:pointer;font-weight:700;font-size:12px;color:#3D444A}.vn-history-details{padding:7px 9px}.vn-history-details p{margin:4px 0;white-space:pre-wrap;word-break:break-word}.vn-history-pictures{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.vn-history-pictures figure{margin:0}.vn-history-pictures img{width:100%;height:125px;object-fit:contain;background:white}.vn-history-pictures figcaption{font-size:11px;color:#53676B}.vn-registry-hint{color:#60737B}';document.head.appendChild(style);
  q('vnRegistryExport').addEventListener('click',()=>exportAll().catch(e=>alert('Error al exportar: '+e.message)));
- q('vnRegistryImport').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{await importAll(f)}catch(err){alert('No se pudo importar: '+err.message)}e.target.value='';});
+ q('vnRegistryImport').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{await importAll(f)}catch(err){alert('No se pudo importar el JSON: '+err.message+'\nLa aplicación no impone límite de MB; comprueba el espacio y memoria disponibles en el navegador.')}e.target.value='';});
 }
 async function initialize(){
  mount();try{db=await connect();registry.mode='indexeddb';
@@ -7724,6 +7749,7 @@ registry.openSelected=()=>loadRecord(q('patientList')?.value);
 registry.saveCurrent=saveCurrent;
 registry.deleteSelected=async()=>{await registry.ensureReady();const id=activePatientId||q('patientList')?.value;const rec=patients.find(r=>r.id===id);if(!rec)return alert('Selecciona una ficha.');if(!confirm('¿Eliminar esta ficha y su historial de evoluciones y fotografías?'))return;try{await removePatient(rec);patients=patients.filter(p=>p.id!==id);activePatientId=null;currentPhotoRef=null;newPatient();renderPatients();renderLog(null);badge('Ficha eliminada',true)}catch(e){alert(e.message)}};
 registry.exportAll=exportAll;
+registry.importAll=importAll;
 window.VN_REGISTRY=registry;
 window.VN_PATIENT_PHOTOS={
  async pdfAssets(){

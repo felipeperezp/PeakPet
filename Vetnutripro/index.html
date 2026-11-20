@@ -182,6 +182,24 @@ header.vn-corporate-header{
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="canonical" href="https://www.peakpet.cl/Vetnutripro">
 <meta name="peakpet-license" content="Proprietary - All rights reserved - PeakPet - Unauthorized redistribution prohibited">
+
+<style id="vn-reference-photo-styles">
+#vn-reference-photos .vn-ref-layout{display:grid;grid-template-columns:2fr 1fr 1.5fr;gap:12px}
+#vn-reference-photos .vn-ref-options,.vn-reference-choices{display:flex;gap:18px;flex-wrap:wrap;margin:12px 0}
+#vn-reference-photos .vn-ref-options label,.vn-reference-choices label{display:flex;align-items:center;gap:6px;font-weight:500}
+#vn-reference-photos input[type=checkbox]{width:18px;height:18px;flex:none}
+.vn-reference-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin:18px 0}
+.vn-reference-card{border:1px solid #DDE4E6;background:#FAFCFC;border-radius:12px;padding:12px;display:grid;grid-template-columns:minmax(115px,39%) 1fr;gap:12px;align-items:start}
+.vn-reference-card>img{display:block;width:100%;max-height:310px;object-fit:contain;border-radius:8px;background:#F0F3F4}
+.vn-reference-detail{display:flex;flex-direction:column;gap:9px;min-width:0}
+.vn-reference-detail>strong{color:#087D82}
+.vn-reference-fields{display:grid;grid-template-columns:1fr;gap:8px}
+.vn-reference-detail textarea{min-height:70px}
+.vn-reference-choices{display:flex;flex-direction:column;gap:4px;margin:4px 0}
+.vn-reference-card .danger{align-self:start;font-size:12px}
+@media(max-width:830px){#vn-reference-photos .vn-ref-layout{grid-template-columns:1fr}.vn-reference-gallery{grid-template-columns:1fr}}
+@media(max-width:430px){.vn-reference-card{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -194,6 +212,7 @@ header.vn-corporate-header{
 <a href="#catalogo">Catálogo</a>
 <a href="#plan">Plan nutricional</a>
 <a href="#seguimiento">Seguimiento</a>
+<a href="#vn-reference-photos">Fotografías</a>
 <a href="#informe">Informe PDF</a>
 </nav>
 
@@ -530,6 +549,22 @@ Exportar respaldo JSON
 <input id="backupInput" type="file" accept=".json">
 </label>
 </div>
+</section>
+
+<section id="vn-reference-photos" class="card">
+ <h2>5.B. Registro fotográfico complementario</h2>
+ <p class="muted">Documenta la evolución del paciente, el alimento utilizado, la porción medida, la cama o cualquier otro antecedente visual. Cada imagen queda asociada a la ficha del paciente y puede incluirse en uno, ambos o ninguno de los informes.</p>
+ <div class="vn-ref-layout">
+  <div class="field"><label for="vnReferenceFiles">Fotografías JPG, PNG, WebP (puedes seleccionar varias)</label><input type="file" id="vnReferenceFiles" accept="image/*" multiple></div>
+  <div class="field"><label for="vnReferenceDate">Fecha de las fotografías</label><input id="vnReferenceDate" type="date"></div>
+  <div class="field"><label for="vnReferenceCategory">Tipo de fotografía</label><select id="vnReferenceCategory"><option value="evolucion">Evolución corporal</option><option value="alimento">Bolsa o envase de alimento</option><option value="dosificador">Dosificador o porción</option><option value="entorno">Cama o entorno</option><option value="actividad">Actividad o equipamiento</option><option value="otro">Otro antecedente</option></select></div>
+ </div>
+ <div class="field"><label for="vnReferenceNote">Descripción y antecedentes observados</label><textarea id="vnReferenceNote" placeholder="Ej.: evolución de la cintura, foto del envase actual, medida del dosificador, condiciones de descanso..."></textarea></div>
+ <div class="vn-ref-options"><label><input id="vnReferenceExecutive" type="checkbox" checked> Incluir en informe resumido</label><label><input id="vnReferenceFull" type="checkbox" checked> Incluir en informe completo</label></div>
+ <div class="actions"><button id="vnReferenceAdd" type="button">Agregar fotografías a la ficha</button><span id="vnReferenceCount" class="muted">0 fotografías registradas</span></div>
+ <p id="vnReferenceStatus" class="muted" role="status">Las fotografías se reducen de tamaño para facilitar el guardado y la exportación JSON. No se envían a servidores externos.</p>
+ <div id="vnReferenceGallery" class="vn-reference-gallery"></div>
+ <div class="warn"><strong>Respaldo:</strong> las fotografías forman parte de la ficha y de los respaldos JSON. Una cantidad muy grande puede superar la cuota de almacenamiento del navegador. Descarga copias de seguridad periódicas.</div>
 </section>
 
 <section id="informe" class="card">
@@ -5250,6 +5285,22 @@ function renderProjection(){
          t(title,x+9,y-149,9,true,BRAND.dark);
       });y-=185;
     };
+
+    const drawComplementaryPhotoGallery=(entries)=>{
+      if(!Array.isArray(entries)||!entries.length)return;
+      // Anexo independiente, con cada fotografía y sus observaciones completas.
+      next();heading('ANEXO. Registro fotográfico complementario');
+      for(const [i,p] of entries.entries()){
+        ensure(267);
+        t('Fotografía '+(i+1)+' · '+(p.category||'Antecedente'),46,y,10,true,BRAND.dark);y-=18;
+        t('Fecha: '+(p.date||'No registrada'),46,y,9,false,BRAND.gray);y-=16;
+        rect(45,y-191,505,194,'#F5F8F9');
+        if(!pdfPhoto(p.key,50,y-186,495,184))t('Imagen no disponible',66,y-96,9,false,BRAND.gray);
+        y-=202;
+        paragraph('Observación: '+(p.note||'Sin observaciones adicionales.'),false);
+        y-=8;
+      }
+    };
     start(true);
     for(const item of items){
       if(item.vnPetProfile) drawVetProfile(item.vnPetProfile);
@@ -5262,6 +5313,7 @@ function renderProjection(){
       else if(item.vnSport) {drawSportSection(item.vnSport);drawSportPhotoStrip(item.vnSport);}
       else if(item.vnSupplementPhotos) drawSupplementPhotos(item.vnSupplementPhotos);
       else if(item.vnPatientPhotoGallery) drawPatientPhotoGallery();
+      else if(item.vnReferencePhotoGallery) drawComplementaryPhotoGallery(item.vnReferencePhotoGallery);
       else if(item.heading) heading(item.text);
       else paragraph(item.text,!!item.bold);
     }
@@ -5377,6 +5429,13 @@ function renderProjection(){
          const pp=await window.VN_PATIENT_PHOTOS.pdfAssets();
          Object.assign(photoSet.assets,pp);
          if(Object.keys(pp).length)items.push({vnPatientPhotoGallery:true});
+       }
+       if(window.VN_REFERENCE_PHOTOS){
+         const evidence=await window.VN_REFERENCE_PHOTOS.pdfEntries('full');
+         if(evidence.length){
+           for(const p of evidence)photoSet.assets[p.key]={width:p.width,height:p.height,data:p.data};
+           items.push({vnReferencePhotoGallery:evidence.map(({key,category,date,note})=>({key,category,date,note}))});
+         }
        }
        const blob=generateEnhanced(items,picture,summary,bcsAsset&&bcsAsset.picture,bcsAsset&&bcsAsset.info,projection,photoSet.assets);
       const url=URL.createObjectURL(blob),a=document.createElement("a");
@@ -7049,7 +7108,7 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
       return {w:cv.width,h:cv.height,b:Uint8Array.from(raw,ch=>ch.charCodeAt(0))};
     }catch(e){console.warn('Logo no disponible en el PDF ejecutivo',e);return null}
   }
-  function makePdf(d,logo,foodPicture,alternativePictures=[],supplementPictures=[],patientPictures=[]){
+  function makePdf(d,logo,foodPicture,alternativePictures=[],supplementPictures=[],patientPictures=[],referencePictures=[]){
     const streams=[];let s=[];
     const rect=(x,y,w,h,c)=>s.push(rgb(c)+' rg '+x+' '+y+' '+w+' '+h+' re f');
     const stroke=(x1,y1,x2,y2,c=colors.line,width=1)=>s.push(rgb(c)+' RG '+width+' w '+x1+' '+y1+' m '+x2+' '+y2+' l S');
@@ -7112,7 +7171,13 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
     const adviceOverflow=adviceLines.slice(firstAdviceCount);
     const continuationCapacity=42;
     const extraPages=Math.ceil(Math.max(clinicalOverflow.length,adviceOverflow.length)/continuationCapacity);
-    const pageTotal=2+extraPages;
+    const referencePagePlans=[];
+    referencePictures.forEach((photo,i)=>{
+      const lines=wrapUnabridged(photo.note||'Sin observaciones adicionales.',485,9);
+      referencePagePlans.push({index:i,photo,first:true,lines:lines.slice(0,17)});
+      for(let j=17;j<lines.length;j+=42)referencePagePlans.push({index:i,photo,first:false,lines:lines.slice(j,j+42)});
+    });
+    const pageTotal=2+extraPages+referencePagePlans.length;
     function header(page,subtitle){
       rect(0,833,595,9,colors.teal);rect(0,758,595,75,colors.white);
       if(logo){const maxW=196,maxH=48,ratio=logo.w/logo.h;const ww=Math.min(maxW,maxH*ratio),hh=ww/ratio;
@@ -7312,6 +7377,24 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
         '06 · Indicaciones al tutor (cont.)');
       streams.push(s.join('\n')+'\n');
     }
+    // Anexo fotográfico solicitado para el informe ejecutivo: páginas automáticas.
+    referencePagePlans.forEach((plan,i)=>{
+      s=[];header(3+extraPages+i,plan.first?'Registro fotográfico complementario':'Registro fotográfico · continuación');
+      const pic=plan.photo;
+      title('Fotografía '+(plan.index+1)+' · '+(pic.category||'Antecedente'),45,730);
+      t('Fecha: '+(pic.date||'No registrada'),46,708,9,false,colors.gray);
+      let firstY;
+      if(plan.first){
+        rect(45,312,505,370,colors.light);
+        const maxW=493,maxH=356,scale=Math.min(maxW/pic.width,maxH/pic.height),w=pic.width*scale,h=pic.height*scale;
+        const x=51+(493-w)/2,y=319+(356-h)/2;
+        s.push('q '+w.toFixed(2)+' 0 0 '+h.toFixed(2)+' '+x.toFixed(2)+' '+y.toFixed(2)+' cm /Evidence'+(plan.index+1)+' Do Q');
+        firstY=290;
+      }else firstY=676;
+      t(plan.first?'Observaciones registradas:':'Observaciones · continuación:',46,firstY,9.5,true,colors.dark);
+      plan.lines.forEach((line,j)=>{if(line)t(line,46,firstY-20-j*12.5,9,false,colors.graphite);});
+      streams.push(s.join('\n')+'\n');
+    });
     const objects=[null];
     const add=v=>{objects.push(typeof v==='string'?bytes(v):v);return objects.length-1};
     const reserve=()=>{objects.push(null);return objects.length-1};
@@ -7325,9 +7408,11 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
     const sportResources=sportImageIds.map((id,i)=>id?' /Sport'+(i+1)+' '+id+' 0 R':'').join('');
     const patientImageIds=(patientPictures||[]).map(img=>img?add(pack([bytes('<< /Type /XObject /Subtype /Image /Width '+img.w+' /Height '+img.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+img.b.length+' >>\nstream\n'),img.b,bytes('\nendstream')])):null);
     const patientResources=patientImageIds.map((id,i)=>id?' /Patient'+(i+1)+' '+id+' 0 R':'').join('');
+    const evidenceIds=(referencePictures||[]).map(img=>img?add(pack([bytes('<< /Type /XObject /Subtype /Image /Width '+img.width+' /Height '+img.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+img.data.length+' >>\nstream\n'),img.data,bytes('\nendstream')])):null);
+    const evidenceResources=evidenceIds.map((id,i)=>id?' /Evidence'+(i+1)+' '+id+' 0 R':'').join('');
     const ids=[];
     for(const st of streams){const content=bytes(st),cid=add(pack([bytes('<< /Length '+content.length+' >>\nstream\n'),content,bytes('endstream')]));
-      const xobj=(imageId||packId||altImageIds.some(Boolean)||sportImageIds.some(Boolean)||patientImageIds.some(Boolean))?' /XObject << '+(imageId?'/Logo '+imageId+' 0 R ':'')+(packId?'/Pack '+packId+' 0 R ':'')+altResources+sportResources+patientResources+'>>':'';
+      const xobj=(imageId||packId||altImageIds.some(Boolean)||sportImageIds.some(Boolean)||patientImageIds.some(Boolean)||evidenceIds.some(Boolean))?' /XObject << '+(imageId?'/Logo '+imageId+' 0 R ':'')+(packId?'/Pack '+packId+' 0 R ':'')+altResources+sportResources+patientResources+evidenceResources+'>>':'';
       const id=add('<< /Type /Page /Parent '+pagesId+' 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 '+f1+' 0 R /F2 '+f2+' 0 R >>'+xobj+' >> /Contents '+cid+' 0 R >>');ids.push(id)}
     objects[pagesId]=bytes('<< /Type /Pages /Count '+ids.length+' /Kids ['+ids.map(x=>x+' 0 R').join(' ')+'] >>');
     const root=add('<< /Type /Catalog /Pages '+pagesId+' 0 R >>');
@@ -7387,7 +7472,8 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
     if(shell && names.length)shell.textContent='Imágenes no descargables: '+names.join(', ')+'. Puedes cargar la fotografía desde la ficha del producto.';
     const patientPhotos=el('vnPatientPhotosExecutive')?.checked&&window.VN_PATIENT_PHOTOS?
       await window.VN_PATIENT_PHOTOS.pdfPictures():[];
-    return makePdf(d,await jpegLogo(),foodPicture,alternatives,sports,patientPhotos);
+    const referencePhotos=window.VN_REFERENCE_PHOTOS?await window.VN_REFERENCE_PHOTOS.pdfEntries('executive'):[];
+    return makePdf(d,await jpegLogo(),foodPicture,alternatives,sports,patientPhotos,referencePhotos);
   }
   const previousDownload=window.downloadReport;
   const previousPreview=window.previewReport;
@@ -7588,7 +7674,8 @@ async function removePatient(rec){if(!db){for(const key of new Set([rec.photoRef
  for(const key of new Set([rec.photoRef,...(rec.history||[]).map(h=>h.photoRef)].filter(Boolean)))tx.objectStore('media').delete(key);
  tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
 function cleanedSnapshot(raw){const v=clone(raw||{});if(v.tutorPreconsulta?.photos)delete v.tutorPreconsulta.photos;return v;}
-function currentSignature(obj){return JSON.stringify({fields:obj.fields,selectedFoodId:obj.selectedFoodId,visits:obj.visits,tutor:obj.tutorPreconsulta});}
+function historySnapshot(obj){const r=clone(obj);if(Array.isArray(r.referencePhotos))r.referencePhotos=r.referencePhotos.map(({src,...meta})=>meta);return r;}
+function currentSignature(obj){return JSON.stringify({fields:obj.fields,selectedFoodId:obj.selectedFoodId,visits:obj.visits,tutor:obj.tutorPreconsulta,referencePhotos:(obj.referencePhotos||[]).map(({src,...meta})=>meta)});}
 function currentImportData(){return window.VN_TUTOR_PRECONSULTA?.getData?.()||null;}
 function badge(t,ok){const e=q('vnRegistryState');if(e){e.textContent=t;e.style.color=ok?'#087D82':'#a94a37';}}
 function renderLog(rec){const el=q('vnRegistryTimeline');if(!el)return;
@@ -7650,7 +7737,7 @@ async function saveCurrent({source='manual',sourceId='',sourceDate=''}={}){
    const date=(sourceDate?new Date(sourceDate):new Date());
    const safeDate=!Number.isNaN(date.getTime())?date.toISOString():savedAt;
    record.history.push({id:entryId,date:safeDate,savedAt,source,sourceId:importId,
-      signature,weight:Number(data.fields?.weight)||null,photoRef:currentPhotoRef||null,data:clone(data)});
+      signature,weight:Number(data.fields?.weight)||null,photoRef:currentPhotoRef||null,data:historySnapshot(data)});
  }
  record.photoRef=currentPhotoRef;
  const numWeight=Number(data.fields?.weight),date=(sourceDate||savedAt).slice(0,10);
@@ -7661,7 +7748,7 @@ async function saveCurrent({source='manual',sourceId='',sourceDate=''}={}){
  }
  // Mantener sincronizada la instantánea clínica del control con la curva de seguimiento.
  const last=record.history[record.history.length-1];
- if(last?.id===entryId){last.data=clone(record.data);last.signature=currentSignature(record.data);}
+ if(last?.id===entryId){last.data=historySnapshot(record.data);last.signature=currentSignature(record.data);}
  try{
    await putPatient(record,mediaRow);
    const ix=patients.findIndex(x=>x.id===record.id);if(ix>=0)patients[ix]=record;else patients.push(record);
@@ -8170,6 +8257,83 @@ readyPromise=initialize();
  if(intro)intro.textContent='Base integrada de '+allFoods().length+' alimentos para perros y gatos. Se conservaron las fichas históricas y se agregaron productos del listado internacional, sin sobreescribir coincidencias. Las formulaciones de referencia no están certificadas por PeakPet y deben contrastarse con el fabricante.';
  // El catálogo mostrado incluye cada alimento registrado; un producto incompleto no se recomienda automáticamente.
 })();
+</script>
+<script id="vn-reference-photo-records">
+/* PeakPet · Registro fotográfico clínico complementario · 2026-11-20
+   Compatible con fichas JSON v4 y respaldos longitudinales. */
+(function installVetNutriReferencePhotos(){
+ 'use strict';
+ const q=id=>document.getElementById(id);
+ const section=q('vn-reference-photos');
+ if(!section||typeof snapshot!=='function'||typeof restore!=='function')return;
+ const categories={evolucion:'Evolución corporal',alimento:'Bolsa o envase de alimento',dosificador:'Dosificador o porción de alimento',entorno:'Cama o entorno',actividad:'Actividad o equipamiento',otro:'Otro antecedente clínico'};
+ let photos=[];
+ const copy=a=>JSON.parse(JSON.stringify(a));
+ const today=()=>{let d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const list=q('vnReferenceGallery'),status=q('vnReferenceStatus');
+ q('vnReferenceDate').value=today();
+ function changed(){try{dirty=true;q('approved').checked=false}catch(e){} status.textContent='Cambios sin guardar: utiliza «Guardar ficha» y exporta periódicamente un respaldo JSON.';}
+ function render(){
+   list.replaceChildren();
+   q('vnReferenceCount').textContent=photos.length+' fotografía(s) registradas';
+   if(!photos.length){const p=document.createElement('p');p.className='muted';p.textContent='Sin fotografías complementarias. Puedes añadir controles del animal o material de alimentación y entorno.';list.appendChild(p);return;}
+   photos.forEach((ph,index)=>{
+     const card=document.createElement('div');card.className='vn-reference-card';
+     const img=document.createElement('img');img.src=ph.src;img.alt='Fotografía '+(index+1)+': '+(categories[ph.category]||'Otro');img.loading='lazy';
+     const detail=document.createElement('div');detail.className='vn-reference-detail';
+     detail.innerHTML='<strong>Fotografía '+(index+1)+'</strong>';
+     const grid=document.createElement('div');grid.className='vn-reference-fields';
+     const dateLabel=document.createElement('label');dateLabel.textContent='Fecha';
+     const date=document.createElement('input');date.type='date';date.value=ph.date||'';date.addEventListener('change',()=>{ph.date=date.value;changed()});dateLabel.appendChild(date);
+     const categoryLabel=document.createElement('label');categoryLabel.textContent='Tipo de fotografía';
+     const sel=document.createElement('select');for(const [value,name] of Object.entries(categories))sel.add(new Option(name,value));sel.value=categories[ph.category]?ph.category:'otro';sel.addEventListener('change',()=>{ph.category=sel.value;changed()});categoryLabel.appendChild(sel);
+     grid.append(dateLabel,categoryLabel);
+     const noteLabel=document.createElement('label');noteLabel.textContent='Descripción / observación';
+     const note=document.createElement('textarea');note.rows=3;note.value=ph.note||'';note.placeholder='Ej.: Control semana 4, cambio en condición corporal, aspecto de la bolsa o dosificador...';note.addEventListener('input',()=>{ph.note=note.value;changed()});noteLabel.appendChild(note);
+     const choices=document.createElement('div');choices.className='vn-reference-choices';
+     for(const [key,label] of [['executive','Incluir en informe resumido'],['full','Incluir en informe completo']]){
+       const lab=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.checked=!!ph[key];cb.addEventListener('change',()=>{ph[key]=cb.checked;changed()});lab.append(cb,document.createTextNode(' '+label));choices.appendChild(lab);
+     }
+     const remove=document.createElement('button');remove.type='button';remove.className='danger';remove.textContent='Eliminar fotografía';remove.addEventListener('click',()=>{if(!confirm('¿Eliminar esta fotografía de la ficha actual?'))return;photos.splice(index,1);changed();render()});
+     detail.append(grid,noteLabel,choices,remove);card.append(img,detail);list.appendChild(card);
+   });
+ }
+ async function processFile(file){
+   if(!file.type.startsWith('image/'))throw new Error('Formato no admitido: '+file.name+'. Usa una fotografía JPG, PNG, HEIC compatible o WebP.');
+   const blobUrl=URL.createObjectURL(file);
+   try{
+     const im=new Image();im.src=blobUrl;await im.decode();
+     const max=1400,scale=Math.min(1,max/Math.max(im.naturalWidth,im.naturalHeight));
+     const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(im.naturalWidth*scale));canvas.height=Math.max(1,Math.round(im.naturalHeight*scale));
+     const ctx=canvas.getContext('2d');if(!ctx)throw new Error('No se pudo preparar la imagen');
+     ctx.fillStyle='#FFFFFF';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(im,0,0,canvas.width,canvas.height);
+     const src=canvas.toDataURL('image/jpeg',0.8);
+     if(!src.startsWith('data:image/jpeg'))throw new Error('No fue posible convertir '+file.name);
+     return {id:'rf_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9),src,date:q('vnReferenceDate').value||today(),category:q('vnReferenceCategory').value||'otro',note:q('vnReferenceNote').value.trim(),full:q('vnReferenceFull').checked,executive:q('vnReferenceExecutive').checked};
+   }finally{URL.revokeObjectURL(blobUrl)}
+ }
+ q('vnReferenceAdd').addEventListener('click',async()=>{
+   const input=q('vnReferenceFiles');const files=[...input.files];if(!files.length){alert('Selecciona una o más fotografías antes de agregarlas.');return}
+   const btn=q('vnReferenceAdd');btn.disabled=true;let n=0;
+   try{
+     for(const file of files){try{photos.push(await processFile(file));n++;status.textContent='Preparando fotografías: '+n+'/'+files.length;}catch(err){alert('No se pudo agregar «'+file.name+'»: '+err.message)}}
+     if(n){changed();render();q('vnReferenceFiles').value='';q('vnReferenceNote').value='';status.textContent=n+' fotografía(s) incorporadas a la ficha abierta. Guarda la ficha para conservarlas.';}
+   }finally{btn.disabled=false}
+ });
+ const oldSnapshot=snapshot;
+ snapshot=function(){const out=oldSnapshot();out.referencePhotos=copy(photos);return out};
+ const oldRestore=restore;
+ restore=function(data){oldRestore(data);photos=Array.isArray(data?.referencePhotos)?copy(data.referencePhotos).filter(p=>p&&typeof p.src==='string'&&p.src.startsWith('data:image/')).map(p=>({id:p.id||'rf_'+Math.random().toString(36).slice(2),src:p.src,date:p.date||'',category:categories[p.category]?p.category:'otro',note:String(p.note||''),executive:p.executive!==false,full:p.full!==false})):[];render();status.textContent='Fotografías recuperadas de la ficha: '+photos.length;};
+ const oldNewPatient=newPatient;
+ newPatient=function(){oldNewPatient();if(!activePatientId&&!q('petName').value.trim()){photos=[];render();status.textContent='Nueva ficha: registro fotográfico vacío.';}};
+ function selected(kind){return photos.filter(p=>p[kind]&&p.src.startsWith('data:image/')).map(p=>({id:p.id,src:p.src,date:p.date||'',category:categories[p.category]||categories.otro,note:p.note||''}));}
+ function jpegBytes(src){const encoded=src.split(',')[1];const binary=atob(encoded),data=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)data[i]=binary.charCodeAt(i);return data;}
+ async function pdfEntries(kind){return selected(kind).map((p,i)=>({key:'__vn_reference_photo_'+i,category:p.category,date:p.date,note:p.note,width:0,height:0,data:jpegBytes(p.src),src:p.src})).map(p=>{ const im=new Image();im.src=p.src;return {...p,im};}).reduce(async(prev,p)=>{const all=await prev;try{await p.im.decode();all.push({key:p.key,category:p.category,date:p.date,note:p.note,width:p.im.naturalWidth,height:p.im.naturalHeight,data:p.data})}catch(e){console.warn('Foto no disponible en el PDF',e)}return all},Promise.resolve([]));}
+ window.VN_REFERENCE_PHOTOS={get:()=>copy(photos),count:()=>photos.length,selected,pdfEntries,categories};
+ render();
+})();
+
 </script>
 </body>
 </html>

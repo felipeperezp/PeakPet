@@ -6346,7 +6346,99 @@ refreshExisting();refreshChoices();render();
  ['Exótico de pelo corto',null,null],['Himalayo',null,null],
  ['Maine Coon',4.5,9.1],['Oriental',null,null],['Persa',3.2,6.4],
  ['Ragdoll',null,null],['Scottish Fold',null,null],['Siamés',2.3,5.4],
- ['Siberiano',null,null],['Sphynx',null,null]
+ ['Siberiano',null,null],['Sphynx',null,null],
+ ['Abyssinian',null,null],
+ ['American Bobtail',null,null],
+ ['American Bobtail Shorthair',null,null],
+ ['American Curl',null,null],
+ ['American Curl Longhair',null,null],
+ ['American Shorthair',null,null],
+ ['American Wirehair',null,null],
+ ['Australian Mist',null,null],
+ ['Balinese',null,null],
+ ['Bengal Longhair',null,null],
+ ['British Longhair',null,null],
+ ['Burmese',null,null],
+ ['Burmilla',null,null],
+ ['Burmilla Longhair',null,null],
+ ['Chartreux',null,null],
+ ['Chausie',null,null],
+ ['Cherubim',null,null],
+ ['Cornish Rex',null,null],
+ ['Cymric',null,null],
+ ['Cymric Tailed',null,null],
+ ['Donskoy',null,null],
+ ['Egyptian Mau',null,null],
+ ['Exotic Shorthair',null,null],
+ ['Havana',null,null],
+ ['Highlander',null,null],
+ ['Highlander Shorthair',null,null],
+ ['Japanese Bobtail',null,null],
+ ['Japanese Bobtail Longhair',null,null],
+ ['Khaomanee',null,null],
+ ['Korat',null,null],
+ ['Kurilian Bobtail',null,null],
+ ['Kurilian Bobtail Longhair',null,null],
+ ['LaPerm',null,null],
+ ['LaPerm Shorthair',null,null],
+ ['Lykoi',null,null],
+ ['Maine Coon Polydactyl',null,null],
+ ['Manx',null,null],
+ ['Manx Tailed',null,null],
+ ['Minuet',null,null],
+ ['Minuet Longhair',null,null],
+ ['Minuet Talls',null,null],
+ ['Minuet Talls Longhair',null,null],
+ ['Munchkin',null,null],
+ ['Munchkin Longhair',null,null],
+ ['Nebelung',null,null],
+ ['Norwegian Forest',null,null],
+ ['Ocicat',null,null],
+ ['Oriental Longhair',null,null],
+ ['Oriental Shorthair',null,null],
+ ['Peterbald',null,null],
+ ['Pixiebob',null,null],
+ ['Pixiebob Longhair',null,null],
+ ['Russian Blue',null,null],
+ ['Savannah',null,null],
+ ['Scottish Fold Longhair',null,null],
+ ['Scottish Straight',null,null],
+ ['Scottish Straight Longhair',null,null],
+ ['Selkirk Rex',null,null],
+ ['Selkirk Rex Longhair',null,null],
+ ['Serengeti',null,null],
+ ['Singapura',null,null],
+ ['Snowshoe',null,null],
+ ['Somali',null,null],
+ ['Tennessee Rex',null,null],
+ ['Thai',null,null],
+ ['Tonkinese',null,null],
+ ['Toybob',null,null],
+ ['Toyger',null,null],
+ ['Turkish Van',null,null],
+ ['Turkish Angora',null,null],
+ ['Raza mixta de pelo corto',null,null],
+ ['Raza mixta de pelo largo',null,null],
+ ['Europeo de pelo largo',null,null],
+ ['Neva Masquerade',null,null],
+ ['Sokoke',null,null],
+ ['Karelian Bobtail',null,null],
+ ['German Rex',null,null],
+ ['Ojos Azules',null,null],
+ ['Ceylon',null,null],
+ ['Arabian Mau',null,null],
+ ['European Shorthair',null,null],
+ ['Ragamuffin',null,null],
+ ['Javanese',null,null],
+ ['Colorpoint Shorthair',null,null],
+ ['Asian',null,null],
+ ['Asian Semi-longhair',null,null],
+ ['Thai Lilac',null,null],
+ ['Tiffany',null,null],
+ ['York Chocolate',null,null],
+ ['Ukrainian Levkoy',null,null],
+ ['Bambino',null,null],
+ ['Dwelf',null,null],
  ];
  // Source ranges are adult-level orientation only. In juveniles, do not invent a normative weight.
  const lookup={canino:dogData,felino:catData};
@@ -7063,6 +7155,7 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
       return {id,name:record?.label||'Suplemento seleccionado',source:record?.source||''};
     });
     return {c,a,chart,activeSports,extras,chosen,selectedSupplements,
+      priceReport:window.VN_PRICE_MANAGER?.reportSummary?.()||[],
       name:val('petName')||'Paciente sin nombre',owner:val('owner')||'No registrado',species:val('species')==='felino'?'Gato':'Perro',
       breed:breed||'No registrada',sex:el('vnPetSex')?.selectedOptions?.[0]?.textContent||'No registrado',age:val('age')?val('age')+' meses':'No registrada',
       clinic:val('clinic')||'Centro veterinario',vet:val('vet')||'Profesional responsable',today:new Date().toLocaleDateString('es-CL'),
@@ -7177,7 +7270,7 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
       referencePagePlans.push({index:i,photo,first:true,lines:lines.slice(0,17)});
       for(let j=17;j<lines.length;j+=42)referencePagePlans.push({index:i,photo,first:false,lines:lines.slice(j,j+42)});
     });
-    const pageTotal=2+extraPages+referencePagePlans.length;
+    const pageTotal=2+extraPages+referencePagePlans.length+(d.priceReport?.length?1:0);
     function header(page,subtitle){
       rect(0,833,595,9,colors.teal);rect(0,758,595,75,colors.white);
       if(logo){const maxW=196,maxH=48,ratio=logo.w/logo.h;const ww=Math.min(maxW,maxH*ratio),hh=ww/ratio;
@@ -7395,6 +7488,25 @@ window.previewReport=function(){oldPreview?.();const p=document.getElementById('
       plan.lines.forEach((line,j)=>{if(line)t(line,46,firstY-20-j*12.5,9,false,colors.graphite);});
       streams.push(s.join('\n')+'\n');
     });
+    // Anexo económico: cotizaciones del saco y costo de cada dieta, sin recortar contenido.
+    if(Array.isArray(d.priceReport)&&d.priceReport.length){
+      s=[];
+      header(pageTotal,'Comparación económica de alimentos');
+      title('Comparación de dietas en pesos chilenos',45,726);
+      t('Valores referenciales, modificables según proveedor y fecha de cotización.',45,707,9,false,colors.gray);
+      let y=682;
+      for(const r of d.priceReport.slice(0,4)){
+        card(44,y-105,507,108,colors.light);
+        t(shorten(r.kind+' · '+r.name,66),57,y-17,10,true,colors.dark);
+        t('Saco: '+(r.bag?r.bag+' kg':'sin presentación')+'  |  Valor saco: '+(finite(r.clp)?'$'+Math.round(r.clp).toLocaleString('es-CL'):'sin cotización'),57,y-39,8.8);
+        t('Ración: '+(finite(r.perMeal)?r.perMeal.toFixed(1)+' g/comida':'sin pauta')+'  |  Costo/comida: '+(finite(r.perMealCost)?'$'+Math.round(r.perMealCost).toLocaleString('es-CL'):'sin cotización'),57,y-57,8.8);
+        t('Costo diario: '+(finite(r.day)?'$'+Math.round(r.day).toLocaleString('es-CL'):'sin cotización')+'  |  Costo 30 días: '+(finite(r.monthly)?'$'+Math.round(r.monthly).toLocaleString('es-CL'):'sin cotización'),57,y-75,8.8);
+        if(r.fuente)t('Fuente: '+shorten(r.fuente,42)+'  '+(r.fecha||''),57,y-94,7.8,false,colors.gray);
+        y-=132;
+      }
+      t('No considera envío ni descuentos; confirmar precios y composición actual con el fabricante.',45,93,8,false,colors.gray);
+      streams.push(s.join('\n')+'\n');
+    }
     const objects=[null];
     const add=v=>{objects.push(typeof v==='string'?bytes(v):v);return objects.length-1};
     const reserve=()=>{objects.push(null);return objects.length-1};
@@ -8332,6 +8444,262 @@ readyPromise=initialize();
  async function pdfEntries(kind){return selected(kind).map((p,i)=>({key:'__vn_reference_photo_'+i,category:p.category,date:p.date,note:p.note,width:0,height:0,data:jpegBytes(p.src),src:p.src})).map(p=>{ const im=new Image();im.src=p.src;return {...p,im};}).reduce(async(prev,p)=>{const all=await prev;try{await p.im.decode();all.push({key:p.key,category:p.category,date:p.date,note:p.note,width:p.im.naturalWidth,height:p.im.naturalHeight,data:p.data})}catch(e){console.warn('Foto no disponible en el PDF',e)}return all},Promise.resolve([]));}
  window.VN_REFERENCE_PHOTOS={get:()=>copy(photos),count:()=>photos.length,selected,pdfEntries,categories};
  render();
+})();
+
+</script>
+<script id="vn-market-chile-2026">
+(function(){
+'use strict';
+/* PeakPet · actualización comercial Chile 20-11-2026. Sin dependencias de red.
+   Precios: referentes de tiendas chilenas, sujetos a modificación; NO precios en tiempo real.
+   El cálculo sólo usa valores completos: precio CLP + peso bolsa (kg). */
+const el=id=>document.getElementById(id);
+const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const money=x=>Number.isFinite(x)?'$'+Math.round(x).toLocaleString('es-CL'):'Sin cotización';
+const number=(id)=>{const t=el(id)?.value?.trim();return t!==undefined&&t!==''&&Number.isFinite(Number(t))?Number(t):null};
+const getSpecies=()=>el('species')?.value||'canino';
+const researchDate='2026-11-20';
+const today=()=>new Date(new Date().getTime()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+const usable=(v)=>typeof v==='number'&&Number.isFinite(v)&&v>0;
+const DATA=[
+ {marca:'The Best',alimento:'Adultos razas pequeñas',especie:'canino',kcalKg:3634,proteina:28,grasa:14,fibra:3,humedad:9,bolsaKg:10,precioBolsa:27000,fuentePrecio:'Lider Chile',urlPrecio:'https://www.lider.cl/ip/perros/alimento-the-best-razas-pequenas-10-kg/00780441900268',urlNutricion:'https://www.thebestpetfood.cl/producto-razas-pequenas.html',ingredientes:'Harina de cerdo y carne fresca de cerdo, pescado, hígado de cerdo, maíz, punta de arroz, salvado de trigo, aceite de pollo con tocoferoles, hidrolizado de origen animal, linaza, levadura de cerveza, harina de algas, arándano.'},
+ {marca:'The Best',alimento:'Adultos razas medianas y grandes',especie:'canino',kcalKg:3588,proteina:27,grasa:13,fibra:3,humedad:9,bolsaKg:20,precioBolsa:null,urlNutricion:'https://www.thebestpetfood.cl/producto-razas-medianas-grandes.html',ingredientes:'Harina de carne de cerdo y carne fresca de cerdo, hígado de cerdo, maíz, arroz, salvado de trigo, aceite de pollo, hidrolizado de cerdo, linaza, huevo de gallina, levadura de cerveza, arándano.'},
+ {marca:'The Best',alimento:'Cachorros todas las razas',especie:'canino',kcalKg:3661.6,proteina:28,grasa:14,fibra:3,humedad:9,bolsaKg:10,precioBolsa:27000,fuentePrecio:'Lider Chile',urlPrecio:'https://www.lider.cl/ip/perros/alimento-the-best-cachorros-10-kg/00780441900262',urlNutricion:'https://www.thebestpetfood.cl/producto-cachorros.html',ingredientes:'Harina de carne de cerdo y carne fresca de cerdo, hígado de cerdo, maíz, arroz, salvado de trigo, aceite de pollo, hidrolizado de cerdo, linaza, huevo, levadura de cerveza, harina de algas (DHA), arándano.'},
+ {marca:'The Best',alimento:'Gatos adultos todas las razas',especie:'felino',kcalKg:3906,proteina:32,grasa:15,fibra:2.5,humedad:7,bolsaKg:10,precioBolsa:30000,fuentePrecio:'Lider Chile',urlPrecio:'https://www.lider.cl/ip/gatos/alimento-the-best-gatos-adultos-10-kg/00780441900306',urlNutricion:'https://www.thebestpetfood.cl/producto-gatos-adultos.html',ingredientes:'Harina de subproductos de ave, carne fresca de pescado e hígado de cerdo, maíz, carne de cerdo deshidratada, arroz, salvado de trigo, aceite de pollo, proteína concentrada de maíz, hidrolizado animal, linaza, huevo, algas, taurina.'},
+ {marca:'Three Dogs Original',alimento:'Adultos razas medianas y grandes',especie:'canino',kcalKg:3650,proteina:23,grasa:10,fibra:3,humedad:10,bolsaKg:20,precioBolsa:63990,fuentePrecio:'Lider Chile',urlPrecio:'https://www.lider.cl/ip/perros/three-dogs-adulto-raza-mediana-o-grande-20-kg/00789851045758',urlNutricion:'https://www.threechile.cl/product/perros-adultos-razas-medianas-y-grandes/',ingredientes:'Harina de carne y huesos bovina y de cerdo, subproductos de pollo, hidrolizado de hígado, arroz, maíz integral, linaza, grasa animal, salvado de trigo.'},
+ {marca:'Three Dogs Original',alimento:'Adultos razas pequeñas y minis',especie:'canino',kcalKg:3670,proteina:23,grasa:12,fibra:3.5,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/perros-adultos-razas-pequenas-y-minis/',ingredientes:'Harina de carne y huesos bovina y de cerdo, subproductos de pollo, hidrolizado de hígado, arroz, maíz, linaza, grasa animal, salvado de trigo.'},
+ {marca:'Three Dogs Original',alimento:'Senior razas medianas y grandes',especie:'canino',kcalKg:3460,proteina:25,grasa:10.5,fibra:4.5,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/perros-senior-razas-medianas-y-grandes/',ingredientes:'Harina de carne y huesos bovina, subproductos de ave, hidrolizado de hígado, arroz, maíz, sorgo, grasa de pollo, fibra vegetal, vitaminas y minerales.'},
+ {marca:'Three Dogs Original',alimento:'Senior razas pequeñas y minis',especie:'canino',kcalKg:3460,proteina:25,grasa:10.5,fibra:4.5,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/perros-senior-razas-pequenas-y-minis/',ingredientes:'Harina de carne y hueso bovino, subproductos de aves, hidrolizado de hígado de ave y cerdo, arroz, maíz, sorgo, aceite de ave, linaza, salvado de trigo, pulpa de remolacha, glucosamina y condroitina.'},
+ {marca:'Three Dogs Original',alimento:'Cachorros razas pequeñas y minis',especie:'canino',kcalKg:3820,proteina:27.5,grasa:12.5,fibra:2.8,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/perros-cachorros-de-razas-pequenas-y-minis/',ingredientes:'Harinas de carne bovina y porcina, subproductos de pollo, linaza, arroz, hidrolizado de hígado, gluten de maíz, maíz, salvado de trigo, grasa de pollo, vitaminas y minerales.'},
+ {marca:'Three Dogs Original',alimento:'Cachorros razas medianas y grandes',especie:'canino',kcalKg:3650,proteina:27.5,grasa:12,fibra:3,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/perros-cachorros-de-razas-medianas-y-grandes/',ingredientes:'Harinas de carne bovina y porcina, subproductos de pollo, linaza, arroz, hidrolizado de hígado, gluten de maíz, maíz, salvado de trigo, grasa de pollo, vitaminas y minerales.'},
+ {marca:'Three Cats Original',alimento:'Gatos adultos carne',especie:'felino',kcalKg:3810,proteina:31,grasa:11,fibra:3.5,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/gatos-adultos-carne/',ingredientes:'Harina de carne y huesos bovina y de cerdo, subproductos de pollo, hidrolizado de hígado, arroz, gluten de maíz, maíz, salvado de trigo, aceite de pescado, taurina.'},
+ {marca:'Three Cats Original',alimento:'Gatos castrados carne',especie:'felino',kcalKg:3810,proteina:31,grasa:11,fibra:3.5,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/gatos-castrados-carne/',ingredientes:'Harinas de carne bovina y porcina, subproductos de ave, hidrolizado de hígado, arroz, gluten de maíz, levadura, grasa animal, taurina, DL-metionina.'},
+ {marca:'Three Cats Original',alimento:'Gatitos carne',especie:'felino',kcalKg:3810,proteina:33,grasa:12,fibra:3,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/gatitos-carne/',ingredientes:'Harina de carne y huesos bovina y porcina, subproductos de ave, hidrolizado de hígado, arroz, gluten de maíz, maíz, grasa animal, taurina, levadura y minerales.'},
+ {marca:'Three Cats Original',alimento:'Gatos castrados senior 10+',especie:'felino',kcalKg:3650,proteina:36.5,grasa:14,fibra:null,humedad:10,bolsaKg:null,precioBolsa:null,urlNutricion:'https://www.threechile.cl/product/gatos-castrados-senior-10/',ingredientes:'Harina de subproductos de pollo, hidrolizado de hígado, arroz, maíz, gluten de maíz, grasa de pollo, aceite de pescado, pulpa de remolacha, taurina, DL-metionina.'}
+];
+const baseBefore=BASE_FOODS.length,keys=new Set(BASE_FOODS.concat(customFoods).map(f=>f.especie+'|'+normalize(f.marca)+'|'+normalize(f.alimento)));
+const additions=[];
+DATA.forEach((f,i)=>{
+ const k=f.especie+'|'+normalize(f.marca)+'|'+normalize(f.alimento);
+ if(keys.has(k))return;
+ const o={...f,id:'cl2026_'+String(i+1).padStart(2,'0'),categoria:/(cachorros|gatitos)/i.test(f.alimento)?'crecimiento':'mantenimiento',tipo:'alimento seco',racion:null,proteina1000Origen:null,precio100g:usable(f.precioBolsa)&&usable(f.bolsaKg)?f.precioBolsa/f.bolsaKg/10:null,notas:'Análisis garantizado publicado por fabricante. Los porcentajes mínimo/máximo de etiqueta son límites declarados, no necesariamente la composición medida. Cotización de referencia puede variar. '+f.urlNutricion,origen:'fabricante-chile-2026',requiereValidacion:false};
+ BASE_FOODS.push(o);keys.add(k);additions.push(o);
+});
+const STORE='VN_SACO_PRECIOS_CL_2026_V1';
+let stored={};try{const x=JSON.parse(localStorage.getItem(STORE)||'{}');if(x&&typeof x==='object'&&!Array.isArray(x))stored=x;}catch(_e){}
+const overrides=stored;
+function meta(f){
+ if(!f)return null;
+ const explicit=overrides[f.id];
+ if(explicit&&typeof explicit==='object')return explicit;
+ if(usable(f.bolsaKg)||usable(f.precioBolsa))return {kg:f.bolsaKg,clp:f.precioBolsa,fuente:f.fuentePrecio||'',fecha:researchDate,url:f.urlPrecio||'',kind:'cotizado'};
+ return null;
+}
+function resolved(f){
+ if(!f)return {kg:null,clp:null,price100:null,fuente:'',fecha:'',url:'',kind:'pendiente'};
+ const m=meta(f)||{};
+ const kg=Number(m.kg),clp=Number(m.clp);
+ const good=usable(kg)&&usable(clp);
+ return {kg:usable(kg)?kg:null,clp:usable(clp)?clp:null,price100:good?clp/(kg*10):(usable(f.precio100g)?f.precio100g:null),fuente:m.fuente||'',fecha:m.fecha||'',url:m.url||'',kind:m.kind||'pendiente',cotizado:good};
+}
+function syncUnitPrices(){
+ BASE_FOODS.concat(customFoods).forEach(f=>{if(!f)return;const a=resolved(f);if(a.cotizado){f.precio100g=a.price100;f.bolsaKg=a.kg;f.precioBolsa=a.clp;}else if(overrides[f.id]&&overrides[f.id].kg===null){f.precio100g=null;f.bolsaKg=null;f.precioBolsa=null;}});
+}
+syncUnitPrices();
+const CSS=`
+#vnPricePanel{border:1px solid #badadd;background:#f5fbfa;border-radius:14px;padding:17px;margin:15px 0 18px}
+#vnPricePanel .grid3{margin-top:12px}#vnPricePanel h3{margin:0 0 8px}#vnPricePanel .muted{margin:7px 0}
+#vnMarketTools{border:1px solid #d8e6e7;border-radius:12px;padding:15px;margin:16px 0;background:#fafdfd}
+#vnMarketTools .grid3{margin-top:10px}#vnMarketTools label{display:block;margin-bottom:5px}
+#vnPriceComparative{border:1px solid #dce7e7;background:#fff;border-radius:12px;padding:15px;margin-top:13px}
+#vnPriceComparative table{width:100%;min-width:600px}
+#vnMarketTools .vn-market-hint{font-size:12px;color:#617881;margin:8px 0}
+#catalogBody tr.vnp-price-row{cursor:pointer}#catalogBody tr.vnp-price-row:hover{background:#eef8f8}
+#vnPriceStatus{line-height:1.55}
+`;
+const style=document.createElement('style');style.id='vn-price-cl-styles';style.textContent=CSS;document.head.appendChild(style);
+const p=document.createElement('div');p.id='vnPricePanel';p.innerHTML=`
+<h3>Precio comercial y presentación · CLP</h3>
+<p class="muted">Selecciona el alimento actual o ingresa uno nuevo. Actualiza precios por proveedor; los datos de tienda son <strong>referenciales</strong>, no se sincronizan automáticamente. El costo real cambia según ración, descuentos y despacho.</p>
+<div class="grid3">
+ <div class="field"><label for="vnBagSize">Presentación de la bolsa (kg)</label><input id="vnBagSize" type="number" min="0" step="0.01" placeholder="Ej. 10"></div>
+ <div class="field"><label for="vnBagPrice">Precio del saco en pesos chilenos ($)</label><input id="vnBagPrice" type="number" min="0" step="1" placeholder="Ej. 30000"></div>
+ <div class="field"><label for="vnRetail">Tienda / proveedor</label><input id="vnRetail" maxlength="100" placeholder="Ej. Lider, proveedor, cotización"></div>
+ <div class="field"><label for="vnPriceDate">Fecha de cotización</label><input id="vnPriceDate" type="date"></div>
+ <div class="field"><label for="vnPriceUrl">URL del producto o referencia (opcional)</label><input id="vnPriceUrl" type="url" placeholder="https://..."></div>
+ <div class="field"><label>Precio por 100 g</label><input id="vnPrice100" readonly></div>
+</div>
+<div class="actions"><button type="button" id="vnSavePrice">Guardar cotización del alimento</button><button type="button" class="secondary" id="vnClearPrice">Dejar precio sin cotización</button><button type="button" class="secondary" id="vnPriceExports">Exportar precios JSON</button><button type="button" class="secondary" id="vnPriceImports">Importar precios JSON</button><input type="file" id="vnPriceImportsFile" accept=".json,application/json" hidden></div>
+<div id="vnPriceStatus" class="note" aria-live="polite">Selecciona un alimento para obtener costo por ración y costo mensual.</div>
+<div id="vnPriceComparative"><h3>Costos de alimentación actual y alternativas</h3><div id="vnPriceTable"></div></div>`;
+const foodsSection=el('alimentos');const anchor=el('foodWarnings');
+if(anchor)anchor.insertAdjacentElement('afterend',p);else foodsSection?.appendChild(p);
+const market=document.createElement('div');market.id='vnMarketTools';market.innerHTML=`<h3>Búsqueda global, orden alfabético y comparación de alimentos</h3><div class="grid3">
+<div class="field"><label for="vnFoodGlobalSearch">Buscar en todos los alimentos (perros y gatos)</label><input id="vnFoodGlobalSearch" type="search" placeholder="Marca, nombre, variedad o tipo"></div>
+<div class="field"><label for="vnFoodOrder">Orden del catálogo y selectores</label><select id="vnFoodOrder"><option value="az">Marca y alimento A → Z</option><option value="za">Marca y alimento Z → A</option><option value="original">Orden original de carga</option></select></div>
+<div class="field"><label for="vnFoodSpeciesFilter">Filtrar catálogo</label><select id="vnFoodSpeciesFilter"><option value="todos">Todas las especies</option><option value="canino">Perros</option><option value="felino">Gatos</option></select></div></div>
+<p class="vn-market-hint">Haz clic en una fila del catálogo para cargar su ficha, cambiar la especie automáticamente y editar su presentación y precio. También puedes buscar desde la sección de alimento actual.</p>
+<p class="muted">Razas felinas ampliadas siguiendo el listado TICA; las variedades sin peso adulto validado quedan sin rango, evitando estimaciones arbitrarias.</p>`;
+const catalog=el('catalogo');const cTable=catalog?.querySelector('.tablewrap');cTable?.insertAdjacentElement('beforebegin',market);
+let sorting='az';
+const priorAll=allFoods;
+allFoods=function(){const a=priorAll();if(sorting==='original')return a;const sorted=[...a].sort((x,y)=>(String(x.marca||'')+' '+String(x.alimento||'')).localeCompare(String(y.marca||'')+' '+String(y.alimento||''),'es',{sensitivity:'base'}));return sorting==='za'?sorted.reverse():sorted;};
+const prevCatalog=renderCatalog;
+const prevSelect=refreshFoodSelect;
+const oldFill=fillFood;
+const oldChoose=chooseFood;
+let pending=false;
+function currentFood(){const id=el('foodSelect')?.value;return id&&id!=='manual'?findFood(id):null;}
+function putPrice(f){
+ const m=meta(f)||{};
+ el('vnBagSize').value=usable(Number(m.kg))?m.kg:'';
+ el('vnBagPrice').value=usable(Number(m.clp))?m.clp:'';
+ el('vnRetail').value=m.fuente||'';
+ el('vnPriceDate').value=m.fecha||'';
+ el('vnPriceUrl').value=m.url||'';
+ calculatePrice();
+}
+function calculatePrice(){const kg=number('vnBagSize'),clp=number('vnBagPrice');el('vnPrice100').value=usable(kg)&&usable(clp)?money(clp/kg/10):'Sin precio verificable';}
+function currentBasis(){
+ const f=currentFood();
+ if(f)return f;
+ return {id:'manual',marca:el('foodBrand')?.value||'Manual',alimento:el('foodName')?.value||'Alimento manual',kcalKg:number('foodKcal'),proteina:number('foodProtein'),grasa:number('foodFat'),fibra:number('foodFiber'),especie:getSpecies(),precio100g:usable(number('vnBagSize'))&&usable(number('vnBagPrice'))?number('vnBagPrice')/number('vnBagSize')/10:null};
+}
+function basisPrice(f){
+ if(f?.id==='manual')return {kg:number('vnBagSize'),clp:number('vnBagPrice'),price100:usable(number('vnBagSize'))&&usable(number('vnBagPrice'))?number('vnBagPrice')/number('vnBagSize')/10:null,cotizado:usable(number('vnBagSize'))&&usable(number('vnBagPrice')),fuente:el('vnRetail')?.value||'',fecha:el('vnPriceDate')?.value||''};
+ return resolved(f);
+}
+function kcalToday(){const planned=number('planKcal'),treats=number('treats')??0;return usable(planned)&&planned>treats?planned-treats:null;}
+function foodStats(f, isActual=false){
+ if(!f)return null;
+ const kg=Number(f.kcalKg);
+ const prescribed=kcalToday();
+ const grams= isActual?(number('grams')??(usable(prescribed)&&usable(kg)?prescribed*1000/kg:null)):(usable(prescribed)&&usable(kg)?prescribed*1000/kg:null);
+ const servings=number('meals')||2;
+ const price=basisPrice(f);
+ const p100=price.price100;
+ const day=usable(p100)&&grams!==null?grams*p100/100:null;
+ return {name:((f.marca||'')===f.alimento?'':(f.marca||'')+' · ')+(f.alimento||''),grams,servings,perMeal:grams!==null?grams/servings:null,per100:p100,day,perMealCost:day!==null?day/servings:null,monthly:day!==null?day*30:null,bag:price.kg,clp:price.clp,fuente:price.fuente,fecha:price.fecha,cotizado:price.cotizado,energy:kg};
+}
+function reportData(){
+ const d=window.VN_ALTERNATIVES?.getData?.();
+ const entries=[{kind:'Dieta actual',f:currentBasis(),actual:true}];
+ (d?.foods||[]).forEach((f,i)=>{if(f)entries.push({kind:'Opción '+(i+1),f});});
+ const seen=new Set();
+ return entries.map(x=>({kind:x.kind,...foodStats(x.f,x.actual)})).filter(x=>x.name&&(x.kind==='Dieta actual'||!seen.has(x.name)&&seen.add(x.name)));
+}
+function renderPriceStats(){
+ const rows=reportData();const status=el('vnPriceStatus');if(!status)return;
+ const active=rows.find(x=>x.kind==='Dieta actual');
+ status.textContent=active?('Alimento actual · '+active.name+' · '+(active.bag?active.bag+' kg · ':'')+(active.clp?money(active.clp)+' por saco · ':'Precio de saco pendiente · ')+(active.grams!==null?'Ración diaria '+active.grams.toLocaleString('es-CL',{maximumFractionDigits:1})+' g · ':'')+'Costo por comida '+money(active.perMealCost)+' · Diario '+money(active.day)+' · 30 días '+money(active.monthly)+'.'):'Sin información suficiente.';
+ const tbody=el('vnPriceTable');const tbl=document.createElement('table');const tr=document.createElement('tr');['Comparación','Presentación','Saco CLP','Gramos/día','CLP/ración','CLP/día','CLP/30 días'].forEach(v=>{let th=document.createElement('th');th.textContent=v;tr.append(th);});const thead=document.createElement('thead');thead.append(tr);tbl.append(thead);
+ const body=document.createElement('tbody');rows.forEach(x=>{const r=document.createElement('tr');[x.kind+' · '+x.name,x.bag?x.bag+' kg':'Pendiente',money(x.clp),x.grams===null?'Falta pauta':x.grams.toLocaleString('es-CL',{maximumFractionDigits:1}),money(x.perMealCost),money(x.day),money(x.monthly)].forEach(str=>{let td=document.createElement('td');td.textContent=str;r.append(td);});body.append(r);});tbl.append(body);tbody.replaceChildren(tbl);
+}
+function syncMarketRow(){
+ const tbody=el('catalogBody');if(!tbody)return;
+ const q=normalize(el('vnFoodGlobalSearch')?.value),spec=el('vnFoodSpeciesFilter')?.value||'todos';
+ for(const tr of tbody.rows){const rowName=normalize(tr.dataset.searchText),rowSpec=tr.dataset.species;tr.hidden=!!(q&&!rowName.includes(q)||spec!=='todos'&&rowSpec!==spec);}
+}
+function extraCells(){
+ const head=el('catalogo')?.querySelector('thead tr');if(head&&!head.querySelector('.vnChileHead')){
+  ['Presentación kg','Saco CLP','CLP/ración'].forEach(name=>{const th=document.createElement('th');th.className='vnChileHead';th.textContent=name;head.append(th);});
+ }
+ const tbody=el('catalogBody');if(!tbody)return;
+ const arr=allFoods(),kcal=kcalToday(),meals=number('meals')||2;
+ for(let i=0;i<tbody.rows.length;i++){
+  const tr=tbody.rows[i],f=arr[i];if(!f)continue;
+  tr.dataset.foodId=f.id;tr.dataset.species=f.especie;tr.dataset.searchText=(f.marca||'')+' '+(f.alimento||'')+' '+(f.tipo||'');tr.classList.add('vnp-price-row');tr.title='Clic para seleccionar el alimento y editar su precio';
+  tr.querySelectorAll('.vnChileCell').forEach(e=>e.remove());const m=resolved(f);
+  const g=usable(kcal)&&usable(f.kcalKg)?kcal*1000/f.kcalKg:null;
+  const cost=usable(m.price100)&&g!==null?g*m.price100/100/meals:null;
+  [m.kg?m.kg.toLocaleString('es-CL')+' kg':'—',money(m.clp),money(cost)].forEach(txt=>{const td=document.createElement('td');td.className='vnChileCell';td.textContent=txt;tr.append(td);});
+ }
+ syncMarketRow();
+}
+renderCatalog=function(){prevCatalog();update();extraCells();};
+refreshFoodSelect=function(preferred='manual'){prevSelect(preferred);};
+fillFood=function(f){oldFill(f);putPrice(f);renderPriceStats();};
+chooseFood=function(){oldChoose();if(el('foodSelect')?.value==='manual')putPrice(null);renderPriceStats();};
+// Aceptar alimentos globales de ambas especies en la búsqueda, sin perder selección actual.
+el('catalogBody')?.addEventListener('click',event=>{
+ const row=event.target.closest('tr[data-food-id]');if(!row)return;
+ const f=findFood(row.dataset.foodId);if(!f)return;
+ if(getSpecies()!==f.especie){el('species').value=f.especie;el('species').dispatchEvent(new Event('change',{bubbles:true}));}
+ el('foodSearch').value='';refreshFoodSelect(f.id);chooseFood();el('alimentos')?.scrollIntoView({behavior:'smooth'});
+});
+el('vnFoodOrder')?.addEventListener('change',e=>{sorting=e.target.value;let keep=el('foodSelect')?.value;refreshFoodSelect(keep);renderCatalog();window.VN_ALTERNATIVES?.refreshChoices?.();update();});
+el('vnFoodGlobalSearch')?.addEventListener('input',syncMarketRow);
+el('vnFoodSpeciesFilter')?.addEventListener('change',syncMarketRow);
+['vnBagSize','vnBagPrice'].forEach(id=>el(id)?.addEventListener('input',()=>{calculatePrice();renderPriceStats();}));
+function savePrice(){
+ const f=currentFood();
+ const kg=number('vnBagSize'),clp=number('vnBagPrice');
+ if(!usable(kg)||!usable(clp))return alert('Completa tamaño del saco en kg y precio en CLP mayores a cero.');
+ const data={kg,clp,fuente:el('vnRetail').value.trim(),fecha:el('vnPriceDate').value||today(),url:el('vnPriceUrl').value.trim(),kind:'cotizacion-profesional'};
+ if(f){overrides[f.id]=data;try{localStorage.setItem(STORE,JSON.stringify(overrides));}catch(e){alert('No hay espacio para guardar la cotización. Exporta el JSON y libera almacenamiento del navegador con cuidado.');return;}}
+ else{el('vnPriceDate').value=data.fecha;}
+ if(f){f.precio100g=clp/kg/10;f.bolsaKg=kg;f.precioBolsa=clp;}
+ dirty=true;el('approved').checked=false;update();renderCatalog();renderPriceStats();
+ alert('Cotización guardada. '+(f?'Se reutiliza en las fichas de este navegador.':'Se conservará con el paciente al guardar su ficha.'));
+}
+el('vnSavePrice')?.addEventListener('click',savePrice);
+el('vnClearPrice')?.addEventListener('click',()=>{
+ const f=currentFood();if(f){overrides[f.id]={kg:null,clp:null,fuente:'',fecha:'',url:'',kind:'sin-precio'};try{localStorage.setItem(STORE,JSON.stringify(overrides));}catch(_e){} f.precio100g=null;f.bolsaKg=null;f.precioBolsa=null;}
+ putPrice(null);dirty=true;el('approved').checked=false;update();renderCatalog();renderPriceStats();
+});
+el('vnPriceExports')?.addEventListener('click',()=>{
+ const rows=allFoods().map(f=>({id:f.id,marca:f.marca,alimento:f.alimento,especie:f.especie,...resolved(f)}));
+ const blob=new Blob([JSON.stringify({schema:'peakpet-price-catalog-v1',generatedAt:new Date().toISOString(),rows,overrides},null,2)],{type:'application/json'});
+ downloadBlob(blob,'PeakPet_Precios_Sacos_CLP.json');
+});
+el('vnPriceImports')?.addEventListener('click',()=>el('vnPriceImportsFile').click());
+el('vnPriceImportsFile')?.addEventListener('change',async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ try{
+  const doc=JSON.parse(await file.text());if(doc.schema!=='peakpet-price-catalog-v1'||!Array.isArray(doc.rows))throw Error('Formato incompatible. Importa un JSON de precios exportado desde VetNutri Pro.');
+  let n=0;for(const row of doc.rows){const f=findFood(row.id)||allFoods().find(x=>x.especie===row.especie&&normalize(x.marca)===normalize(row.marca)&&normalize(x.alimento)===normalize(row.alimento));
+    if(!f)continue;const kg=Number(row.kg),clp=Number(row.clp);if(!usable(kg)||!usable(clp))continue;overrides[f.id]={kg,clp,fuente:row.fuente||'',fecha:row.fecha||'',url:row.url||'',kind:'cotizacion-importada'};n++;
+  }
+  localStorage.setItem(STORE,JSON.stringify(overrides));syncUnitPrices();putPrice(currentFood());update();renderCatalog();alert(n+' cotizaciones importadas.');
+ }catch(err){alert('No se pudo importar el archivo de precios: '+err.message);}finally{e.target.value='';}
+});
+// Conservar precio y presentación en la ficha, incluso con alimento manual.
+['vnBagSize','vnBagPrice','vnRetail','vnPriceDate','vnPriceUrl'].forEach(id=>{if(!PATIENT_FIELDS.includes(id))PATIENT_FIELDS.push(id);});
+const oldSave=saveManualFood;
+saveManualFood=function(){
+ const kg=number('vnBagSize'),clp=number('vnBagPrice'),fuente=el('vnRetail').value.trim(),fecha=el('vnPriceDate').value||today(),url=el('vnPriceUrl').value.trim();
+ const before=new Set(customFoods.map(x=>x.id));
+ oldSave();
+ const f=customFoods.find(x=>!before.has(x.id));
+ if(f&&usable(kg)&&usable(clp)){
+  overrides[f.id]={kg,clp,fuente,fecha,url,kind:'manual'};
+  try{localStorage.setItem(STORE,JSON.stringify(overrides));}catch(_e){}
+  f.precio100g=clp/kg/10;f.bolsaKg=kg;f.precioBolsa=clp;
+  saveStore(FOOD_KEY,customFoods);putPrice(f);update();renderCatalog();renderPriceStats();
+ }
+};
+const oldRestore=restore;
+restore=function(record){oldRestore(record);if(currentFood())putPrice(currentFood());else if(record?.fields){['vnBagSize','vnBagPrice','vnRetail','vnPriceDate','vnPriceUrl'].forEach(id=>{if(record.fields[id]!==undefined)el(id).value=String(record.fields[id]||'');});calculatePrice();}renderPriceStats();};
+const oldNew=newPatient;
+newPatient=function(){oldNew();putPrice(currentFood());renderPriceStats();};
+const oldReport=reportSections;
+reportSections=function(){const list=oldReport();if(!list)return list;const rows=reportData();const items=[{heading:true,text:'5D. Comparación económica de dieta actual y alternativas (CLP)'}];
+ items.push({text:'Precios por saco y raciones estimados a partir de cotizaciones ingresadas. Son referencias sujetas a proveedor, disponibilidad y fecha; no incluyen despacho. Los alimentos sin cotización no muestran costos inventados.'});
+ rows.forEach(r=>{items.push({text:r.kind+' · '+r.name,bold:true});items.push({text:'Presentación: '+(r.bag?r.bag+' kg':'por confirmar')+' · Precio saco: '+money(r.clp)+' · 100 g: '+money(r.per100)+' · Ración: '+(r.perMeal===null?'pendiente':r.perMeal.toLocaleString('es-CL',{maximumFractionDigits:1})+' g')+' · Costo/ración: '+money(r.perMealCost)+' · Diario: '+money(r.day)+' · 30 días: '+money(r.monthly)+'.'});if(r.fuente)items.push({text:'Fuente de precio: '+r.fuente+(r.fecha?' · '+r.fecha:'')+'.'});});
+ let ix=list.findIndex(x=>x.heading&&/^6\./.test(x.text));if(ix<0)ix=list.length;list.splice(ix,0,...items);return list;};
+// El informe ejecutivo se complementa mediante la fuente d.priceReport en el motor PDF de base.
+window.VN_PRICE_MANAGER={reportSummary:reportData,exportCount:()=>allFoods().length,added:additions.map(x=>x.id),status:()=>({foods:allFoods().length,new:additions.length,felineOptions:el('vnBreedSelect')?.options?.length||0})};
+// Herramientas y notas actualizadas en vista sin reemplazar contenido corporativo ni historiales.
+// Mantener el número visible del catálogo sincronizado con la base integrada.
+const catHeading=el('catalogo')?.querySelector('h2');
+if(catHeading)catHeading.textContent='Catálogo nutricional integrado · '+allFoods().length+' alimentos';
+const catLead=el('catalogo')?.querySelector('p');
+if(catLead)catLead.textContent='Catálogo consolidado de '+allFoods().length+' recetas para perros y gatos. Los precios publicados son referenciales; faltantes se completan con cotización manual. Los valores de composición deben verificarse con etiqueta y fabricante.';
+const catNav=document.querySelector('nav a[href="#catalogo"]');
+if(catNav)catNav.textContent='Catálogo ('+allFoods().length+')';
+const summary=el('vnGlobalCatalogSummary');if(summary){const msg=document.createElement('div');msg.textContent=' · Incluye '+additions.length+' nuevos productos chilenos verificados (The Best y Three Dogs/Cats). Tarifas CLP editables y costos por ración. La base actual contiene '+allFoods().length+' alimentos; no todos tienen precio publicado.';summary.append(msg);}
+renderCatalog();refreshFoodSelect(el('foodSelect')?.value||'manual');putPrice(currentFood());renderPriceStats();
+['foodSelect','vnAlt1','vnAlt2','vnAlt3','planKcal','grams','meals','treats','species'].forEach(id=>{el(id)?.addEventListener('change',()=>{renderPriceStats();extraCells();});el(id)?.addEventListener('input',()=>{renderPriceStats();extraCells();});});
 })();
 
 </script>
